@@ -39,8 +39,8 @@ namespace MoneyWeb.Data.Map
                 .HasColumnType("varchar(1000)")
                 .IsRequired(false);
 
-            builder.Property(x => x.Tipo)
-                .HasColumnName("TIPO")
+            builder.Property(x => x.Fixo)
+                .HasColumnName("FIXO")
                 .HasColumnType("tinyint(1)")
                 .IsRequired();
 
