@@ -10,7 +10,7 @@
 
         public DateOnly Data { get; set; }
 
-        public string Observacao { get; set; }
+        public string? Observacao { get; set; }
 
         public bool Fixo { get; set; }
 
@@ -28,7 +28,7 @@
 
         public Usuario Usuario { get; set; }
 
-        public int CartaoId { get; set; }
+        public int? CartaoId { get; set; }
 
         public Cartao Cartao { get; set; }
     }

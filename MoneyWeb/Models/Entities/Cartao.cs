@@ -17,5 +17,7 @@
         public int ContaId { get; set; }
 
         public Conta Conta { get; set; }
+
+        public List<Lancamento> Lancamentos { get; set; }
     }
 }
