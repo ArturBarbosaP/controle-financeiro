@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using MoneyWeb.Models;
+using MoneyWeb.Models.ViewModels;
 
 namespace MoneyWeb.Controllers
 {

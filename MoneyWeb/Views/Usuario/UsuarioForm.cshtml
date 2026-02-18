@@ -1,4 +1,6 @@
-﻿@{
+﻿@using MoneyWeb.Models.ViewModels
+@model UsuarioViewModel
+@{
 	ViewData["Title"] = "Criar novo usuário";
 }
 
@@ -6,17 +8,20 @@
 	<h1 class="display-4">@ViewData["Title"]</h1>
 </div>
 
-<form asp-controller="Usuario" asp-action="" method="post">
+<form asp-controller="Usuario" asp-action="CreateUsuario" method="post">
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
+        <input type="text" asp-for="Nome" class="form-control" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
+        @Html.ValidationMessageFor(x => x.Nome)
         <label for="txtNome">Nome</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="txtUsuario" aria-describedby="nomeHelp" placeholder="" />
+        <input type="text" asp-for="NomeUsuario" class="form-control" id="txtUsuario" aria-describedby="nomeHelp" placeholder="" />
+        @Html.ValidationMessageFor(x => x.NomeUsuario)
         <label for="txtUsuario">Usuário</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="txtSenha" aria-describedby="nomeHelp" placeholder="" />
+        <input type="password" asp-for="Senha" class="form-control" id="txtSenha" aria-describedby="nomeHelp" placeholder="" />
+        @Html.ValidationMessageFor(x => x.Senha)
         <label for="txtSenha">Senha</label>
     </div>
 
