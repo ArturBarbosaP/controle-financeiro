@@ -9,7 +9,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
     options.UseMySql(builder.Configuration.GetConnectionString("Default"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default")));
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default")),
+        assembly => assembly.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName));
 });
 
 var app = builder.Build();
