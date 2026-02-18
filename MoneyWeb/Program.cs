@@ -1,10 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using MoneyWeb.Data;
+using MoneyWeb.Repository;
+using MoneyWeb.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//dependency injection das interface das entidades
+builder.Services.AddScoped<IBaserepository, BaseRepository>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
