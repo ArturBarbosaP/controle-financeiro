@@ -7,5 +7,11 @@ namespace MoneyWeb.Data
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {}
+
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Conta> Contas { get; set; }
+        public DbSet<Cartao> Cartoes { get; set; }
+        public DbSet<Lancamento> Lancamentos { get; set; }
     }
 }
