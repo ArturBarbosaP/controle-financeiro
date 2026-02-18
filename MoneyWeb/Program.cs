@@ -6,7 +6,13 @@ using MoneyWeb.Repository.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
+
+//AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
 
 //dependency injection das interface das entidades
 builder.Services.AddScoped<IBaserepository, BaseRepository>();
