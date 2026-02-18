@@ -1,7 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using MoneyWeb.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<ApplicationContext>(options =>
+{
+    options.UseMySql(builder.Configuration.GetConnectionString("Default"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default")));
+});
 
 var app = builder.Build();
 
