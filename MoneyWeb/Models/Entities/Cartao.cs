@@ -1,0 +1,21 @@
+﻿namespace MoneyWeb.Models.Entities
+{
+    public class Cartao : BaseEntity
+    {
+        public string Nome { get; set; }
+
+        public DateOnly DataFechamento { get; set; }
+
+        public DateOnly DataVencimento { get; set; }
+
+        public decimal Limite { get; set; }
+
+        public decimal LimiteDisponivel { get; set; }
+
+        public decimal ValorParcelado { get; set; }
+
+        public int ContaId { get; set; }
+
+        public Conta Conta { get; set; }
+    }
+}
