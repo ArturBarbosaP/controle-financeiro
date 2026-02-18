@@ -1,0 +1,27 @@
+﻿@{
+	ViewData["Title"] = "Criar novo usuário";
+}
+
+<div class="text-center">
+	<h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<form asp-controller="Usuario" asp-action="" method="post">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
+        <label for="txtNome">Nome</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="txtUsuario" aria-describedby="nomeHelp" placeholder="" />
+        <label for="txtUsuario">Usuário</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="txtSenha" aria-describedby="nomeHelp" placeholder="" />
+        <label for="txtSenha">Senha</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Criar</button>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-secondary me-md-2" role="button" asp-controller="Usuario" asp-action="Index">Voltar</a>
+    </div>
+</form>
