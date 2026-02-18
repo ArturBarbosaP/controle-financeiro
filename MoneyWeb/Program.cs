@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 
 //dependency injection das interface das entidades
 builder.Services.AddScoped<IBaserepository, BaseRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
