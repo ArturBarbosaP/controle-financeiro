@@ -8,7 +8,7 @@
 	<h1 class="display-4">@ViewData["Title"]</h1>
 </div>
 
-<form asp-controller="Usuario" asp-action="CreateUsuario" method="post">
+<form asp-controller="Usuario" asp-action="Create" method="post">
     <div class="form-floating mb-3">
         <input type="text" asp-for="Nome" class="form-control" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
         @Html.ValidationMessageFor(x => x.Nome)
