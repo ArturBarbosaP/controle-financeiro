@@ -1,4 +1,5 @@
 ﻿@using MoneyWeb.Models.ViewModels
+@using MoneyWeb.Helpers
 @model UsuarioViewModel
 @{
 	ViewData["Title"] = "Criar novo usuário";
@@ -10,18 +11,18 @@
 
 <form asp-controller="Usuario" asp-action="Create" method="post">
     <div class="form-floating mb-3">
-        <input type="text" asp-for="Nome" class="form-control" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
-        @Html.ValidationMessageFor(x => x.Nome)
+        <input type="text" asp-for="Nome" class="form-control @Html.GetValidationCssClass(nameof(Model.Nome))" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
+        <span asp-validation-for="Nome" class="invalid-feedback"></span>
         <label for="txtNome">Nome</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" asp-for="NomeUsuario" class="form-control" id="txtUsuario" aria-describedby="nomeHelp" placeholder="" />
-        @Html.ValidationMessageFor(x => x.NomeUsuario)
+        <input type="text" asp-for="NomeUsuario" class="form-control @Html.GetValidationCssClass(nameof(Model.NomeUsuario))" id="txtUsuario" aria-describedby="nomeHelp" placeholder="" />
+        <span asp-validation-for="NomeUsuario" class="invalid-feedback"></span>
         <label for="txtUsuario">Usuário</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="password" asp-for="Senha" class="form-control" id="txtSenha" aria-describedby="nomeHelp" placeholder="" />
-        @Html.ValidationMessageFor(x => x.Senha)
+        <input type="password" asp-for="Senha" class="form-control @Html.GetValidationCssClass(nameof(Model.Senha))" id="txtSenha" aria-describedby="nomeHelp" placeholder="" />
+        <span asp-validation-for="Senha" class="invalid-feedback"></span>
         <label for="txtSenha">Senha</label>
     </div>
 
