@@ -1,4 +1,6 @@
-﻿@{
+﻿@using MoneyWeb.Models.ViewModels
+@model IEnumerable<UsuarioViewModel>
+@{
     ViewData["Title"] = "Lista de Usuários";
 }
 
@@ -40,4 +42,31 @@
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a role="button" class="btn btn-primary" asp-controller="Usuario" asp-action="Create">Criar novo usuário</a>
     </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Usuário</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var usuario in Model)
+                {
+                    <tr>
+                        <th scope="row">@usuario.Id</th>
+                        <td>@usuario.Nome</td>
+                        <td>@usuario.NomeUsuario</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h2>Nenhum usuário cadastrado!</h2>
+    }
 </div>

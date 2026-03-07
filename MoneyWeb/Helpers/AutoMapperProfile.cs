@@ -8,7 +8,8 @@ namespace MoneyWeb.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<UsuarioViewModel, Usuario>();
+            CreateMap<UsuarioViewModel, Usuario>()
+                .ReverseMap();
         }
     }
 }

@@ -18,9 +18,18 @@ namespace MoneyWeb.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            try
+            {
+                var pacientes = await _repository.GetUsuarios();
+                var pacientesRead = _mapper.Map<IEnumerable<UsuarioViewModel>>(pacientes);
+                return View(pacientesRead);
+            }
+            catch (Exception ex)
+            {
+                return ExibirViewErro($"Erro ao listar usuários: {ex.Message}");
+            }
         }
 
         public IActionResult Create()

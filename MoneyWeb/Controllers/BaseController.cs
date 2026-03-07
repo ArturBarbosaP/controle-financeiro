@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MoneyWeb.Models.ViewModels;
 
 namespace MoneyWeb.Controllers
 {
@@ -12,6 +13,11 @@ namespace MoneyWeb.Controllers
                 return RedirectToAction(action, controller);
 
             return RedirectToAction(action);
+        }
+
+        public IActionResult ExibirViewErro(string mensagem)
+        {
+            return View("Error", new ErrorViewModel { RequestId = mensagem });
         }
     }
 }
