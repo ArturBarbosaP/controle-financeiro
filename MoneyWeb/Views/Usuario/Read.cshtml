@@ -23,10 +23,29 @@
             <a class="btn btn-warning" role="button" asp-controller="Usuario" asp-action="Update" asp-route-id="@Model.Id">Editar</a>
         </div>
         <div class="col text-center">
-            <a class="btn btn-danger" role="button" asp-controller="Usuario" asp-action="" asp-route-id="@Model.Id">Apagar</a>
+            <a class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
         </div>
         <div class="col text-end">
             <a class="btn btn-secondary" role="button" asp-controller="Usuario" asp-action="Index">Voltar</a>
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Excluir Usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Você realmente deseja excluir o usuário @Model.Nome? <br>
+                <b>Essa ação não poderá ser desfeita.</b>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <a role="button" class="btn btn-danger" asp-controller="Usuario" asp-action="Delete" asp-route-id="@Model.Id">Excluir</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

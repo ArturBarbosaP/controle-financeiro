@@ -75,6 +75,25 @@ namespace MoneyWeb.Controllers
             }
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                Usuario usuario = await _repository.GetUsuarioById(id) ?? throw new Exception($"Não existe nenhum usuário com o Id {id}");
+
+                _repository.Delete(usuario);
+
+                if (!await _repository.SaveChanges())
+                    throw new Exception("Não foi possível excluir no banco de dados!");
+
+                return ExibirMensagem("Usuário excluído com sucesso!", true, "Index");
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao excluir usuário: {ex.Message}", false, "Index");
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UsuarioViewModel usuario)
