@@ -26,8 +26,12 @@
         <label for="txtSenha">Senha</label>
     </div>
 
-    <button type="submit" class="btn btn-primary">@ViewBag.Title</button>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a class="btn btn-secondary me-md-2" role="button" asp-controller="Usuario" asp-action="Index">Voltar</a>
+    <div class="row">
+        <div class="col text-start">
+            <button type="submit" class="btn btn-primary">@ViewBag.Title</button>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-secondary" role="button" asp-controller="Usuario" asp-action="Index">Voltar</a>
+        </div>
     </div>
 </form>

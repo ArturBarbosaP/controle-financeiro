@@ -59,6 +59,22 @@ namespace MoneyWeb.Controllers
             }
         }
 
+        public async Task<IActionResult> Read(int id)
+        {
+            try
+            {
+                Usuario usuario = await _repository.GetUsuarioById(id) ?? throw new Exception($"Não existe nenhum usuário com o Id {id}");
+
+                UsuarioViewModel usuarioRead = _mapper.Map<UsuarioViewModel>(usuario);
+
+                return View(usuarioRead);
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao visualizar usuário: {ex.Message}", false, "Index");
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UsuarioViewModel usuario)
