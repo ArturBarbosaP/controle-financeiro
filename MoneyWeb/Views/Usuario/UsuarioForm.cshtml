@@ -2,14 +2,14 @@
 @using MoneyWeb.Helpers
 @model UsuarioViewModel
 @{
-	ViewData["Title"] = "Criar novo usuário";
+	ViewData["Title"] = ViewBag.Title;
 }
 
 <div class="text-center">
 	<h1 class="display-4">@ViewData["Title"]</h1>
 </div>
 
-<form asp-controller="Usuario" asp-action="Create" method="post">
+<form asp-controller="Usuario" asp-action="@ViewBag.Action" method="post">
     <div class="form-floating mb-3">
         <input type="text" asp-for="Nome" class="form-control @Html.GetValidationCssClass(nameof(Model.Nome))" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
         <span asp-validation-for="Nome" class="invalid-feedback"></span>
@@ -26,7 +26,7 @@
         <label for="txtSenha">Senha</label>
     </div>
 
-    <button type="submit" class="btn btn-primary">Criar</button>
+    <button type="submit" class="btn btn-primary">@ViewBag.Title</button>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a class="btn btn-secondary me-md-2" role="button" asp-controller="Usuario" asp-action="Index">Voltar</a>
     </div>

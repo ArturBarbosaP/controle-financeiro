@@ -22,9 +22,9 @@ namespace MoneyWeb.Controllers
         {
             try
             {
-                var pacientes = await _repository.GetUsuarios();
-                var pacientesRead = _mapper.Map<IEnumerable<UsuarioViewModel>>(pacientes);
-                return View(pacientesRead);
+                var usuarios = await _repository.GetUsuarios();
+                var usuariosRead = _mapper.Map<IEnumerable<UsuarioViewModel>>(usuarios);
+                return View(usuariosRead);
             }
             catch (Exception ex)
             {
@@ -34,7 +34,29 @@ namespace MoneyWeb.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.Title = "Criar Usuário";
+            ViewBag.Action = "Create";
+
             return View("UsuarioForm");
+        }
+
+        public async Task<IActionResult> Update(int id)
+        {
+            try
+            {
+                Usuario usuario = await _repository.GetUsuarioById(id) ?? throw new Exception($"Não existe nenhum usuário com o Id {id}");
+
+                UsuarioViewModel usuarioUpdate = _mapper.Map<UsuarioViewModel>(usuario);
+
+                ViewBag.Title = "Editar Usuário";
+                ViewBag.Action = "Update";
+
+                return View("UsuarioForm", usuarioUpdate);
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao editar usuário: {ex.Message}", false, "Index");
+            }
         }
 
         [HttpPost]
@@ -44,19 +66,54 @@ namespace MoneyWeb.Controllers
             try
             {
                 if (!ModelState.IsValid)
+                {
+                    ViewBag.Title = "Criar Usuário";
+                    ViewBag.Action = "Create";
                     return View("UsuarioForm", usuario);
+                }
 
                 Usuario usuarioInsert = _mapper.Map<Usuario>(usuario);
                 _repository.Add(usuarioInsert);
 
                 if (!await _repository.SaveChanges())
-                    return ExibirMensagem("Não foi possível salvar o usuário no banco de dados!", false, "Index", "Usuario");
+                    throw new Exception("Não foi possível criar no banco de dados!");
 
-                return ExibirMensagem("Usuário criado com sucesso!", true, "Index", "Usuario");
+                return ExibirMensagem("Usuário criado com sucesso!", true, "Index");
             }
             catch (Exception ex)
             {
-                return ExibirMensagem($"Erro ao criar usuário: {ex.Message}", false, "Index", "Usuario");
+                return ExibirMensagem($"Erro ao criar usuário: {ex.Message}", false, "Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(UsuarioViewModel usuarioViewModel)
+        {
+            try
+            {
+                Usuario usuario = await _repository.GetUsuarioById(usuarioViewModel.Id) ?? throw new Exception($"Não existe nenhum usuário com o Id {usuarioViewModel.Id}");
+
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Title = "Editar Usuário";
+                    ViewBag.Action = "Update";
+
+                    return View("UsuarioForm", usuarioViewModel);
+                }
+
+                Usuario usuarioUpdate = _mapper.Map(usuarioViewModel, usuario);
+                _repository.Update(usuarioUpdate);
+
+                if (!await _repository.SaveChanges())
+                    throw new Exception("Não foi possível salvar no banco de dados!");
+
+                return ExibirMensagem("Usuário salvo com sucesso!", true, "Index");
+
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao editar usuário: {ex.Message}", false, "Index");
             }
         }
     }
