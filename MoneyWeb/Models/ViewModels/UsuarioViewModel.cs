@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MoneyWeb.Helpers;
+using System.ComponentModel.DataAnnotations;
 
 namespace MoneyWeb.Models.ViewModels
 {
@@ -7,15 +8,16 @@ namespace MoneyWeb.Models.ViewModels
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Digite o nome!")]
-        [MaxLength(100, ErrorMessage = "O nome não pode ultrapassar 100 caracteres!")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "O nome deve ter entre 5 e 100 caracteres!")]
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "Digite o usuário!")]
-        [MaxLength(100, ErrorMessage = "O usuário não pode ultrapassar 100 caracteres!")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "O usuário deve ter entre 5 e 100 caracteres!")]
         public string NomeUsuario { get; set; }
 
         [Required(ErrorMessage = "Digite a senha!")]
-        [MinLength(5, ErrorMessage = "Sua senha deve conter no mínimo 5 caracteres!")]
+        [MinLength(8, ErrorMessage = "Sua senha deve conter no mínimo 8 caracteres!")]
+        [StrongPassword]
         public string Senha { get; set; }
 
     }

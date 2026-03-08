@@ -9,7 +9,10 @@ namespace MoneyWeb.Helpers
         public AutoMapperProfile()
         {
             CreateMap<UsuarioViewModel, Usuario>()
-                .ReverseMap();
+                .ForMember(dest => dest.Senha, opt => opt.MapFrom(src => PasswordHelper.HashPassword(src.Senha)));
+
+            CreateMap<Usuario, UsuarioViewModel>()
+                .ForMember(dest => dest.Senha, opt => opt.Ignore());
         }
     }
 }
