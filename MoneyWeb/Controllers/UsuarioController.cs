@@ -99,6 +99,12 @@ namespace MoneyWeb.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(usuario.Senha))
+                    ModelState.AddModelError("Senha", "Digite a senha!");
+
+                if (string.IsNullOrEmpty(usuario.ConfirmarSenha))
+                    ModelState.AddModelError("ConfirmarSenha", "Confirme a senha!");
+
                 if (!ModelState.IsValid)
                 {
                     ViewBag.Title = "Criar Usuário";

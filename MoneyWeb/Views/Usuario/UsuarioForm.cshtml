@@ -20,11 +20,21 @@
         <span asp-validation-for="NomeUsuario" class="invalid-feedback"></span>
         <label for="txtUsuario">Usuário</label>
     </div>
-    <div class="form-floating mb-3">
-        <input type="password" asp-for="Senha" class="form-control @Html.GetValidationCssClass(nameof(Model.Senha))" id="txtSenha" aria-describedby="nomeHelp" placeholder="" />
-        <span asp-validation-for="Senha" class="invalid-feedback"></span>
-        <label for="txtSenha">Senha</label>
-    </div>
+
+    @if (ViewBag.Action == "Create")
+    {
+        <div class="form-floating mb-3">
+            <input type="password" asp-for="Senha" class="form-control @Html.GetValidationCssClass(nameof(Model.Senha))" id="txtSenha" aria-describedby="nomeHelp" placeholder="" />
+            <span asp-validation-for="Senha" class="invalid-feedback"></span>
+            <label for="txtSenha">Senha</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="password" asp-for="ConfirmarSenha" class="form-control @Html.GetValidationCssClass(nameof(Model.ConfirmarSenha))" id="txtConfirmarSenha" aria-describedby="nomeHelp" placeholder="" />
+            <span asp-validation-for="ConfirmarSenha" class="invalid-feedback"></span>
+            <label for="txtConfirmarSenha">Confirme sua Senha</label>
+        </div>
+    }
 
     <div class="row">
         <div class="col text-start">
