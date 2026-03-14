@@ -21,7 +21,7 @@
 
     <div class="row">
         <div class="col text-start">
-            <a class="btn btn-warning" role="button" asp-controller="Usuario" asp-action="Update" asp-route-id="@Model.Id">Editar</a>
+            <a class="btn btn-warning" role="button" asp-controller="Usuario" asp-action="Update">Editar</a>
         </div>
         <div class="col text-center">
             <a class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#updatePasswordModal">Editar Senha</a>
@@ -47,7 +47,7 @@
                 <b>Essa ação não poderá ser desfeita!</b>
             </div>
             <div class="modal-footer justify-content-between">
-                <a role="button" class="btn btn-danger" asp-controller="Usuario" asp-action="Delete" asp-route-id="@Model.Id">Excluir</a>
+                <a role="button" class="btn btn-danger" asp-controller="Usuario" asp-action="Delete">Excluir</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>

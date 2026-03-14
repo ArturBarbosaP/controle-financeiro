@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MoneyWeb.Data;
 using MoneyWeb.Models.ViewModels;
 
 namespace MoneyWeb.Controllers
@@ -18,6 +19,12 @@ namespace MoneyWeb.Controllers
         public IActionResult ExibirViewErro(string mensagem)
         {
             return View("Error", new ErrorViewModel { RequestId = mensagem });
+        }
+
+        public IActionResult DeslogarUsuario()
+        {
+            HttpContext.Session.ClearUsuarioLogado();
+            return RedirectToAction("Index", "Login");
         }
     }
 }

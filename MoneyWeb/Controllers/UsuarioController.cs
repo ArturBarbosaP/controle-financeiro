@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MoneyWeb.Data;
 using MoneyWeb.Helpers;
 using MoneyWeb.Models.Entities;
 using MoneyWeb.Models.ViewModels;
@@ -42,11 +43,16 @@ namespace MoneyWeb.Controllers
             return View("UsuarioForm");
         }
 
-        public async Task<IActionResult> Update(int id)
+        public async Task<IActionResult> Update()
         {
             try
             {
-                Usuario usuario = await _repository.GetUsuarioById(id) ?? throw new Exception($"Não existe nenhum usuário com o Id {id}");
+                var id = HttpContext.Session.GetUsuarioLogadoId();
+
+                Usuario usuario = await _repository.GetUsuarioById(id.Value);
+
+                if (usuario == null)
+                    return DeslogarUsuario();
 
                 UsuarioViewModel usuarioUpdate = _mapper.Map<UsuarioViewModel>(usuario);
 
@@ -61,11 +67,16 @@ namespace MoneyWeb.Controllers
             }
         }
 
-        public async Task<IActionResult> Read(int id)
+        public async Task<IActionResult> Read()
         {
             try
             {
-                Usuario usuario = await _repository.GetUsuarioById(id) ?? throw new Exception($"Não existe nenhum usuário com o Id {id}");
+                var id = HttpContext.Session.GetUsuarioLogadoId();
+
+                Usuario usuario = await _repository.GetUsuarioById(id.Value);
+
+                if (usuario == null)
+                    return DeslogarUsuario();
 
                 UsuarioViewModel usuarioRead = _mapper.Map<UsuarioViewModel>(usuario);
 
@@ -77,11 +88,16 @@ namespace MoneyWeb.Controllers
             }
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete()
         {
             try
             {
-                Usuario usuario = await _repository.GetUsuarioById(id) ?? throw new Exception($"Não existe nenhum usuário com o Id {id}");
+                var id = HttpContext.Session.GetUsuarioLogadoId();
+
+                Usuario usuario = await _repository.GetUsuarioById(id.Value);
+
+                if (usuario == null)
+                    return DeslogarUsuario();
 
                 _repository.Delete(usuario);
 
@@ -150,7 +166,10 @@ namespace MoneyWeb.Controllers
                     return View("UsuarioForm", usuarioViewModel);
                 }
 
-                Usuario usuario = await _repository.GetUsuarioById(usuarioViewModel.Id) ?? throw new Exception($"Não existe nenhum usuário com o Id {usuarioViewModel.Id}");
+                Usuario usuario = await _repository.GetUsuarioById(usuarioViewModel.Id);
+
+                if (usuario == null)
+                    return DeslogarUsuario();
 
                 Usuario usuarioUpdate = _mapper.Map(usuarioViewModel, usuario);
                 _repository.Update(usuarioUpdate);
@@ -191,7 +210,10 @@ namespace MoneyWeb.Controllers
                     return View("Read", usuarioViewModel);
                 }
 
-                Usuario usuario = await _repository.GetUsuarioById(usuarioViewModel.Id) ?? throw new Exception($"Não existe nenhum usuário com o Id {usuarioViewModel.Id}");
+                Usuario usuario = await _repository.GetUsuarioById(usuarioViewModel.Id);
+
+                if (usuario == null)
+                    return DeslogarUsuario();
 
                 if (!PasswordHelper.VerifyPassword(usuarioViewModel.SenhaAtual, usuario.Senha))
                 {

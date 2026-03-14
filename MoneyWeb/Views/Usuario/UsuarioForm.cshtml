@@ -10,6 +10,12 @@
 </div>
 
 <form asp-controller="Usuario" asp-action="@ViewBag.Action" method="post">
+
+    @if (ViewBag.Action == "Update")
+    {
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
+    }
+
     <div class="form-floating mb-3">
         <input type="text" asp-for="Nome" class="form-control @Html.GetValidationCssClass(nameof(Model.Nome))" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
         <span asp-validation-for="Nome" class="invalid-feedback"></span>
