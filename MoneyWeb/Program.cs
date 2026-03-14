@@ -17,6 +17,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 //dependency injection das interface das entidades
 builder.Services.AddScoped<IBaserepository, BaseRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
 //BD EntityFramework
 builder.Services.AddDbContext<ApplicationContext>(options =>
