@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MoneyWeb.Helpers;
 using MoneyWeb.Models.Entities;
 using MoneyWeb.Models.ViewModels;
@@ -120,6 +121,13 @@ namespace MoneyWeb.Controllers
                     throw new Exception("Não foi possível criar no banco de dados!");
 
                 return ExibirMensagem("Usuário criado com sucesso!", true, "Index");
+            }
+            catch (DbUpdateException ex) when (ex.InnerException.Message.Contains("USUARIO_UNIQUE"))
+            {
+                ModelState.AddModelError(nameof(UsuarioViewModel.NomeUsuario), "Este usuário já está em uso!");
+                ViewBag.Title = "Criar Usuário";
+                ViewBag.Action = "Create";
+                return View("UsuarioForm", usuario);
             }
             catch (Exception ex)
             {
