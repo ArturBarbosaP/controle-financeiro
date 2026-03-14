@@ -22,5 +22,6 @@ namespace MoneyWeb.Models.ViewModels
         [Compare(nameof(Senha), ErrorMessage = "As senhas devem ser iguais!")]
         public string? ConfirmarSenha { get; set; }
 
+        public string? SenhaAtual { get; set; }
     }
 }

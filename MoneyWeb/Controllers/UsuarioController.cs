@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MoneyWeb.Helpers;
 using MoneyWeb.Models.Entities;
 using MoneyWeb.Models.ViewModels;
 using MoneyWeb.Repository.Interfaces;
@@ -100,10 +101,10 @@ namespace MoneyWeb.Controllers
             try
             {
                 if (string.IsNullOrEmpty(usuario.Senha))
-                    ModelState.AddModelError("Senha", "Digite a senha!");
+                    ModelState.AddModelError(nameof(UsuarioViewModel.Senha), "Digite a senha!");
 
                 if (string.IsNullOrEmpty(usuario.ConfirmarSenha))
-                    ModelState.AddModelError("ConfirmarSenha", "Confirme a senha!");
+                    ModelState.AddModelError(nameof(UsuarioViewModel.ConfirmarSenha), "Confirme a senha!");
 
                 if (!ModelState.IsValid)
                 {
@@ -132,8 +133,6 @@ namespace MoneyWeb.Controllers
         {
             try
             {
-                Usuario usuario = await _repository.GetUsuarioById(usuarioViewModel.Id) ?? throw new Exception($"Não existe nenhum usuário com o Id {usuarioViewModel.Id}");
-
                 if (!ModelState.IsValid)
                 {
                     ViewBag.Title = "Editar Usuário";
@@ -141,6 +140,8 @@ namespace MoneyWeb.Controllers
 
                     return View("UsuarioForm", usuarioViewModel);
                 }
+
+                Usuario usuario = await _repository.GetUsuarioById(usuarioViewModel.Id) ?? throw new Exception($"Não existe nenhum usuário com o Id {usuarioViewModel.Id}");
 
                 Usuario usuarioUpdate = _mapper.Map(usuarioViewModel, usuario);
                 _repository.Update(usuarioUpdate);
@@ -153,7 +154,54 @@ namespace MoneyWeb.Controllers
             }
             catch (Exception ex)
             {
-                return ExibirMensagem($"Erro ao editar usuário: {ex.Message}", false, "Index");
+                return ExibirMensagem($"Erro ao salvar usuário: {ex.Message}", false, "Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdatePassword(UsuarioViewModel usuarioViewModel)
+        {
+            try
+            {
+                ModelState.Remove(nameof(UsuarioViewModel.Nome));
+                ModelState.Remove(nameof(UsuarioViewModel.NomeUsuario));
+
+                if (string.IsNullOrEmpty(usuarioViewModel.SenhaAtual))
+                    ModelState.AddModelError(nameof(UsuarioViewModel.SenhaAtual), "Digite a senha atual!");
+
+                if (string.IsNullOrEmpty(usuarioViewModel.Senha))
+                    ModelState.AddModelError(nameof(UsuarioViewModel.Senha), "Digite a nova senha!");
+
+                if (string.IsNullOrEmpty(usuarioViewModel.ConfirmarSenha))
+                    ModelState.AddModelError(nameof(UsuarioViewModel.ConfirmarSenha), "Confirme a senha!");
+
+                if (!ModelState.IsValid)
+                {
+                    TempData["AbrirModalSenha"] = true;
+                    return View("Read", usuarioViewModel);
+                }
+
+                Usuario usuario = await _repository.GetUsuarioById(usuarioViewModel.Id) ?? throw new Exception($"Não existe nenhum usuário com o Id {usuarioViewModel.Id}");
+
+                if (!PasswordHelper.VerifyPassword(usuarioViewModel.SenhaAtual, usuario.Senha))
+                {
+                    ModelState.AddModelError(nameof(UsuarioViewModel.SenhaAtual), "A senha atual está incorreta!");
+                    TempData["AbrirModalSenha"] = true;
+                    return View("Read", usuarioViewModel);
+                }
+
+                Usuario usuarioUpdate = _mapper.Map(usuarioViewModel, usuario);
+                _repository.Update(usuarioUpdate);
+
+                if (!await _repository.SaveChanges())
+                    throw new Exception("Não foi possível salvar no banco de dados!");
+
+                return ExibirMensagem("Senha alterada com sucesso!", true, "Index");
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao alterar senha do usuário: {ex.Message}", false, "Index");
             }
         }
     }

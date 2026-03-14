@@ -1,4 +1,5 @@
-﻿@using MoneyWeb.Models.ViewModels
+﻿@using MoneyWeb.Helpers
+@using MoneyWeb.Models.ViewModels
 @model UsuarioViewModel
 @{
     ViewData["Title"] = "Visualizar Usuário";
@@ -21,6 +22,9 @@
     <div class="row">
         <div class="col text-start">
             <a class="btn btn-warning" role="button" asp-controller="Usuario" asp-action="Update" asp-route-id="@Model.Id">Editar</a>
+        </div>
+        <div class="col text-center">
+            <a class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#updatePasswordModal">Editar Senha</a>
         </div>
         <div class="col text-center">
             <a class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
@@ -49,3 +53,56 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="updatePasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Editar Senha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Usuario" asp-action="UpdatePassword" method="post">
+
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    <input type="hidden" asp-for="Nome" value="@Model.Nome" />
+                    <input type="hidden" asp-for="NomeUsuario" value="@Model.NomeUsuario" />
+
+                    <div class="form-floating mb-3">
+                        <input type="password" asp-for="SenhaAtual" class="form-control @Html.GetValidationCssClass(nameof(Model.SenhaAtual))" id="txtSenhaAtual" aria-describedby="nomeHelp" placeholder="" />
+                        <span asp-validation-for="SenhaAtual" class="invalid-feedback"></span>
+                        <label for="txtSenhaAtual">Senha atual</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" asp-for="Senha" class="form-control @Html.GetValidationCssClass(nameof(Model.Senha))" id="txtSenha" aria-describedby="nomeHelp" placeholder="" />
+                        <span asp-validation-for="Senha" class="invalid-feedback"></span>
+                        <label for="txtSenha">Nova senha</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" asp-for="ConfirmarSenha" class="form-control @Html.GetValidationCssClass(nameof(Model.ConfirmarSenha))" id="txtConfirmarSenha" aria-describedby="nomeHelp" placeholder="" />
+                        <span asp-validation-for="ConfirmarSenha" class="invalid-feedback"></span>
+                        <label for="txtConfirmarSenha">Confirme sua senha</label>
+                    </div>
+
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @if (TempData["AbrirModalSenha"] != null)
+    {
+        <script>
+            var myModal = new bootstrap.Modal(document.getElementById('updatePasswordModal'))
+            myModal.show()
+        </script>
+    }
+}
