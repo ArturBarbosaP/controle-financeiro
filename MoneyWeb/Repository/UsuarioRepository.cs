@@ -17,6 +17,9 @@ namespace MoneyWeb.Repository
         public async Task<Usuario> GetUsuarioById(int id)
         {
             return await _context.Usuarios
+                .Include(x => x.Categorias)
+                .ThenInclude(x => x.Lancamentos)
+                .ThenInclude(x => x.Conta)
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
         }

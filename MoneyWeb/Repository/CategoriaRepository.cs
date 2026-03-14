@@ -17,6 +17,8 @@ namespace MoneyWeb.Repository
         public async Task<Categoria> GetCategoriaById(int id)
         {
             return await _context.Categorias
+                .Include(x => x.Usuario)
+                .ThenInclude(x => x.Lancamentos)
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
         }

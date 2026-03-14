@@ -9,6 +9,9 @@ namespace MoneyWeb.Helpers
         public AutoMapperProfile()
         {
             CreateMap<UsuarioViewModel, Usuario>()
+                .ForMember(dest => dest.Categorias, opt => opt.Ignore())
+                .ForMember(dest => dest.Contas, opt => opt.Ignore())
+                .ForMember(dest => dest.Lancamentos, opt => opt.Ignore())
                 .ForMember(dest => dest.Senha, opt => opt.MapFrom(src => PasswordHelper.HashPassword(src.Senha)));
 
             CreateMap<Usuario, UsuarioViewModel>()
