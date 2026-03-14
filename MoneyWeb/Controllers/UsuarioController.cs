@@ -8,6 +8,7 @@ using MoneyWeb.Repository.Interfaces;
 
 namespace MoneyWeb.Controllers
 {
+    [RequireLogin]
     public class UsuarioController : BaseController
     {
         private readonly IUsuarioRepository _repository;

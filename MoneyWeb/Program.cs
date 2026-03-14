@@ -29,7 +29,6 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 builder.Services.AddSession(opt =>
 {
     opt.IdleTimeout = TimeSpan.FromMinutes(15);
-    opt.Cookie.Expiration = TimeSpan.FromMinutes(30);
     opt.Cookie.IsEssential = true;
     opt.Cookie.HttpOnly = true;
 });
