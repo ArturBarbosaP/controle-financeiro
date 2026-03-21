@@ -16,6 +16,8 @@ namespace MoneyWeb.Helpers
 
             CreateMap<Usuario, UsuarioViewModel>()
                 .ForMember(dest => dest.Senha, opt => opt.Ignore());
+
+            CreateMap<Categoria, CategoriaViewModel>();
         }
     }
 }
