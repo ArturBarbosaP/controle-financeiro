@@ -39,7 +39,7 @@
                 <button type="submit" class="btn btn-primary">@ViewBag.Title</button>
             </div>
             <div class="col text-end">
-                <a class="btn btn-secondary" role="button" asp-controller="Usuario" asp-action="Index">Voltar</a>
+                <a class="btn btn-secondary" role="button" asp-controller="@if (Context.Session.IsUsuarioLogado()) {@("Usuario")} else {@("Home")}" asp-action="Index">Voltar</a>
             </div>
         </div>
     </form>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MoneyWeb.Data;
 
@@ -8,6 +9,11 @@ namespace MoneyWeb.Helpers
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            bool allowAnonymous = context.ActionDescriptor.EndpointMetadata.Any(x => x is AllowAnonymousAttribute);
+
+            if (allowAnonymous)
+                return;
+
             if (!context.HttpContext.Session.IsUsuarioLogado())
             {
                 string returnUrl = context.HttpContext.Request.Path + context.HttpContext.Request.QueryString;

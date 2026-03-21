@@ -24,12 +24,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuário</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Categoria" asp-action="Index">Categorias</a>
                         </li>
                     </ul>
+                    <div class="navbar-text d-flex gap-3">
+                        @if (Context.Session.IsUsuarioLogado())
+                        {
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">@Context.Session.GetUsuarioLogadoNome()</a>
+                        }
+                        else
+                        {
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Create">Criar Conta</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                        }
+                    </div>
                 </div>
             </div>
         </nav>

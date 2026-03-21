@@ -15,5 +15,12 @@ namespace MoneyWeb.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Logoff()
+        {
+            HttpContext.Session.ClearUsuarioLogado();
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
