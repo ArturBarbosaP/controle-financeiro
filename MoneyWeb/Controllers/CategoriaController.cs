@@ -5,6 +5,7 @@ using MoneyWeb.Helpers;
 using MoneyWeb.Models.Entities;
 using MoneyWeb.Models.ViewModels;
 using MoneyWeb.Repository.Interfaces;
+using System.Threading.Tasks;
 
 namespace MoneyWeb.Controllers
 {
@@ -101,6 +102,31 @@ namespace MoneyWeb.Controllers
             catch (Exception ex)
             {
                 return ExibirMensagem($"Erro ao visualizar categoria: {ex.Message}", false, "Index");
+            }
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                Usuario usuario = await _usuario;
+
+                if (usuario == null)
+                    return DeslogarUsuario();
+
+                var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para excluir essa categoria!");
+
+                _repository.Delete(categoria);
+
+                if (!await _repository.SaveChanges())
+                    throw new Exception("Não foi possível excluir no banco de dados!");
+
+                return ExibirMensagem("Categoria excluída com sucesso!", true, "Index");
+
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao excluir categoria: {ex.Message}", false, "Index");
             }
         }
 
