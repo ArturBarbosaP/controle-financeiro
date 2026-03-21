@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using MoneyWeb.Data;
 using MoneyWeb.Helpers;
 using MoneyWeb.Models.Entities;
@@ -30,6 +31,7 @@ namespace MoneyWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [EnableRateLimiting("login")]
         public async Task<IActionResult> Index(LoginViewModel login)
         {
             if (Debugger.IsAttached)

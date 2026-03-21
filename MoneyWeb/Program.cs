@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using MoneyWeb.Data;
 using MoneyWeb.Repository;
@@ -32,6 +33,15 @@ builder.Services.AddSession(opt =>
     opt.IdleTimeout = TimeSpan.FromMinutes(15);
     opt.Cookie.IsEssential = true;
     opt.Cookie.HttpOnly = true;
+});
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("login", opt =>
+    {
+        opt.PermitLimit = 5;
+        opt.Window = TimeSpan.FromMinutes(1);
+    });
 });
 
 var app = builder.Build();

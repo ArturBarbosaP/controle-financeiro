@@ -22,6 +22,13 @@ namespace MoneyWeb.Controllers
             }
         }
 
+        private async Task<Categoria> GetCategoria(int id)
+        {
+            Usuario usuario = await _usuario;
+
+            return usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
+        }
+
         public CategoriaController(ICategoriaRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
         {
             _repository = repository;
@@ -56,11 +63,7 @@ namespace MoneyWeb.Controllers
         {
             try
             {
-                Usuario usuario = await _usuario;
-
-                var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
-
-                CategoriaViewModel categoriaUpdate = _mapper.Map<CategoriaViewModel>(categoria);
+                CategoriaViewModel categoriaUpdate = _mapper.Map<CategoriaViewModel>(await GetCategoria(id));
 
                 ViewBag.Title = "Editar Categoria";
                 ViewBag.Action = "Update";
@@ -77,15 +80,7 @@ namespace MoneyWeb.Controllers
         {
             try
             {
-                Usuario usuario = await _usuario;
-
-                var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
-
-                if (categoria == null)
-                    return ExibirMensagem("Erro ao visualizar categoria: Você não tem permissão para visualizar essa categoria!", false, "Index");
-
-                CategoriaViewModel categoriaRead = _mapper.Map<CategoriaViewModel>(categoria);
-
+                CategoriaViewModel categoriaRead = _mapper.Map<CategoriaViewModel>(await GetCategoria(id));
                 return View(categoriaRead);
             }
             catch (Exception ex)
@@ -98,11 +93,7 @@ namespace MoneyWeb.Controllers
         {
             try
             {
-                Usuario usuario = await _usuario;
-
-                var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para excluir essa categoria!");
-
-                _repository.Delete(categoria);
+                _repository.Delete(await GetCategoria(id));
 
                 if (!await _repository.SaveChanges())
                     throw new Exception("Não foi possível excluir no banco de dados!");
@@ -159,7 +150,7 @@ namespace MoneyWeb.Controllers
                     return View("CategoriaForm", categoriaViewModel);
                 }
 
-                Categoria categoria = await _repository.GetCategoriaById(categoriaViewModel.Id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
+                Categoria categoria = await GetCategoria(categoriaViewModel.Id);
 
                 Categoria categoriaUpdate = _mapper.Map(categoriaViewModel, categoria);
                 _repository.Update(categoriaUpdate);
