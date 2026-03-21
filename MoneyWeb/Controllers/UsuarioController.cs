@@ -49,9 +49,6 @@ namespace MoneyWeb.Controllers
             {
                 Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
 
-                if (usuario == null)
-                    return DeslogarUsuario();
-
                 UsuarioViewModel usuarioUpdate = _mapper.Map<UsuarioViewModel>(usuario);
 
                 ViewBag.Title = "Editar Usuário";
@@ -71,9 +68,6 @@ namespace MoneyWeb.Controllers
             {
                 Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
 
-                if (usuario == null)
-                    return DeslogarUsuario();
-
                 UsuarioViewModel usuarioRead = _mapper.Map<UsuarioViewModel>(usuario);
 
                 return View(usuarioRead);
@@ -89,9 +83,6 @@ namespace MoneyWeb.Controllers
             try
             {
                 Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
-
-                if (usuario == null)
-                    return DeslogarUsuario();
 
                 _repository.Delete(usuario);
 
@@ -162,9 +153,6 @@ namespace MoneyWeb.Controllers
 
                 Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
 
-                if (usuario == null)
-                    return DeslogarUsuario();
-
                 Usuario usuarioUpdate = _mapper.Map(usuarioViewModel, usuario);
                 _repository.Update(usuarioUpdate);
 
@@ -205,9 +193,6 @@ namespace MoneyWeb.Controllers
                 }
 
                 Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
-
-                if (usuario == null)
-                    return DeslogarUsuario();
 
                 if (!PasswordHelper.VerifyPassword(usuarioViewModel.SenhaAtual, usuario.Senha))
                 {

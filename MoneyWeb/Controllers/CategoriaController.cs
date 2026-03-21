@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MoneyWeb.Data;
 using MoneyWeb.Helpers;
 using MoneyWeb.Models.Entities;
 using MoneyWeb.Models.ViewModels;
 using MoneyWeb.Repository.Interfaces;
-using System.Threading.Tasks;
 
 namespace MoneyWeb.Controllers
 {
@@ -37,9 +35,6 @@ namespace MoneyWeb.Controllers
             {
                 Usuario usuario = await _usuario;
 
-                if (usuario == null)
-                    return DeslogarUsuario();
-
                 var categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(usuario.Categorias);
                 return View(categorias);
             }
@@ -63,9 +58,6 @@ namespace MoneyWeb.Controllers
             {
                 Usuario usuario = await _usuario;
 
-                if (usuario == null)
-                    return DeslogarUsuario();
-
                 var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
 
                 CategoriaViewModel categoriaUpdate = _mapper.Map<CategoriaViewModel>(categoria);
@@ -87,9 +79,6 @@ namespace MoneyWeb.Controllers
             {
                 Usuario usuario = await _usuario;
 
-                if (usuario == null)
-                    return DeslogarUsuario();
-
                 var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
 
                 if (categoria == null)
@@ -110,9 +99,6 @@ namespace MoneyWeb.Controllers
             try
             {
                 Usuario usuario = await _usuario;
-
-                if (usuario == null)
-                    return DeslogarUsuario();
 
                 var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para excluir essa categoria!");
 
