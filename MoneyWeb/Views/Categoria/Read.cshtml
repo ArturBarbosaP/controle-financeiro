@@ -1,0 +1,58 @@
+﻿@using MoneyWeb.Models.ViewModels
+@using MoneyWeb.Helpers
+@model CategoriaViewModel
+@{
+	ViewData["Title"] = "Visualizar Categoria";
+}
+
+<div class="text-start">
+	<form>
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="Nome" class="form-control" id="txtNome" aria-describedby="nomeHelp" placeholder="" disabled readonly />
+			<label for="txtNome">Nome</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<select asp-for="Tipo" class="form-select" id="selectTipo" aria-describedby="tipoSelectHelp" placeholder="" disabled readonly>
+				<option selected>@Model.Tipo</option>
+			</select>
+			<label for="selectTipo">Tipo</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="color" asp-for="Cor" class="form-control form-control-color" id="colorPickerCor" title="Escolha a cor da categoria" placeholder="" style="width: 100%;" disabled readonly>
+			<label for="colorPickerCor">Cor</label>
+		</div>
+
+		<div class="row">
+			<div class="col text-start">
+				<a class="btn btn-warning" role="button" asp-controller="Categoria" asp-action="Update" asp-route-id="@Model.Id">Editar</a>
+			</div>
+			<div class="col text-center">
+				<a class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
+			</div>
+			<div class="col text-end">
+				<a class="btn btn-secondary" role="button" asp-controller="Categoria" asp-action="Index">Voltar</a>
+			</div>
+		</div>
+	</form>
+
+	<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Excluir Categoria</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					Você realmente deseja excluir a categoria @Model.Nome? <br>
+					<b>Essa ação não poderá ser desfeita!</b>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<a role="button" class="btn btn-danger" asp-controller="Categoria" asp-action="Delete">Excluir</a>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

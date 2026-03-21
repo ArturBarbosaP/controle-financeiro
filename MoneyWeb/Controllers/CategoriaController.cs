@@ -65,10 +65,7 @@ namespace MoneyWeb.Controllers
                 if (usuario == null)
                     return DeslogarUsuario();
 
-                var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id);
-
-                if (categoria == null)
-                    return ExibirMensagem("Erro ao editar categoria: Você não tem permissão para editar essa categoria!", false, "Index");
+                var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
 
                 CategoriaViewModel categoriaUpdate = _mapper.Map<CategoriaViewModel>(categoria);
 
@@ -80,6 +77,30 @@ namespace MoneyWeb.Controllers
             catch (Exception ex)
             {
                 return ExibirMensagem($"Erro ao editar categoria: {ex.Message}", false, "Index");
+            }
+        }
+
+        public async Task<IActionResult> Read(int id)
+        {
+            try
+            {
+                Usuario usuario = await _usuario;
+
+                if (usuario == null)
+                    return DeslogarUsuario();
+
+                var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
+
+                if (categoria == null)
+                    return ExibirMensagem("Erro ao visualizar categoria: Você não tem permissão para visualizar essa categoria!", false, "Index");
+
+                CategoriaViewModel categoriaRead = _mapper.Map<CategoriaViewModel>(categoria);
+
+                return View(categoriaRead);
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao visualizar categoria: {ex.Message}", false, "Index");
             }
         }
 
