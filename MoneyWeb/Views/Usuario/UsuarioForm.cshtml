@@ -5,44 +5,42 @@
 	ViewData["Title"] = ViewBag.Title;
 }
 
-<div class="text-center">
-	<h1 class="display-4">@ViewData["Title"]</h1>
+<div class="text-start">
+    <form asp-controller="Usuario" asp-action="@ViewBag.Action" method="post">
+
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Nome" class="form-control @Html.GetValidationCssClass(nameof(Model.Nome))" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
+            <span asp-validation-for="Nome" class="invalid-feedback"></span>
+            <label for="txtNome">Nome</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="NomeUsuario" class="form-control @Html.GetValidationCssClass(nameof(Model.NomeUsuario))" id="txtUsuario" aria-describedby="nomeHelp" placeholder="" />
+            <span asp-validation-for="NomeUsuario" class="invalid-feedback"></span>
+            <label for="txtUsuario">Usuário</label>
+        </div>
+
+        @if (ViewBag.Action == "Create")
+        {
+            <div class="form-floating mb-3">
+                <input type="password" asp-for="Senha" class="form-control @Html.GetValidationCssClass(nameof(Model.Senha))" id="txtSenha" aria-describedby="nomeHelp" placeholder="" />
+                <span asp-validation-for="Senha" class="invalid-feedback"></span>
+                <label for="txtSenha">Senha</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="password" asp-for="ConfirmarSenha" class="form-control @Html.GetValidationCssClass(nameof(Model.ConfirmarSenha))" id="txtConfirmarSenha" aria-describedby="nomeHelp" placeholder="" />
+                <span asp-validation-for="ConfirmarSenha" class="invalid-feedback"></span>
+                <label for="txtConfirmarSenha">Confirme sua Senha</label>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col text-start">
+                <button type="submit" class="btn btn-primary">@ViewBag.Title</button>
+            </div>
+            <div class="col text-end">
+                <a class="btn btn-secondary" role="button" asp-controller="Usuario" asp-action="Index">Voltar</a>
+            </div>
+        </div>
+    </form>
 </div>
-
-<form asp-controller="Usuario" asp-action="@ViewBag.Action" method="post">
-
-    <div class="form-floating mb-3">
-        <input type="text" asp-for="Nome" class="form-control @Html.GetValidationCssClass(nameof(Model.Nome))" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
-        <span asp-validation-for="Nome" class="invalid-feedback"></span>
-        <label for="txtNome">Nome</label>
-    </div>
-    <div class="form-floating mb-3">
-        <input type="text" asp-for="NomeUsuario" class="form-control @Html.GetValidationCssClass(nameof(Model.NomeUsuario))" id="txtUsuario" aria-describedby="nomeHelp" placeholder="" />
-        <span asp-validation-for="NomeUsuario" class="invalid-feedback"></span>
-        <label for="txtUsuario">Usuário</label>
-    </div>
-
-    @if (ViewBag.Action == "Create")
-    {
-        <div class="form-floating mb-3">
-            <input type="password" asp-for="Senha" class="form-control @Html.GetValidationCssClass(nameof(Model.Senha))" id="txtSenha" aria-describedby="nomeHelp" placeholder="" />
-            <span asp-validation-for="Senha" class="invalid-feedback"></span>
-            <label for="txtSenha">Senha</label>
-        </div>
-
-        <div class="form-floating mb-3">
-            <input type="password" asp-for="ConfirmarSenha" class="form-control @Html.GetValidationCssClass(nameof(Model.ConfirmarSenha))" id="txtConfirmarSenha" aria-describedby="nomeHelp" placeholder="" />
-            <span asp-validation-for="ConfirmarSenha" class="invalid-feedback"></span>
-            <label for="txtConfirmarSenha">Confirme sua Senha</label>
-        </div>
-    }
-
-    <div class="row">
-        <div class="col text-start">
-            <button type="submit" class="btn btn-primary">@ViewBag.Title</button>
-        </div>
-        <div class="col text-end">
-            <a class="btn btn-secondary" role="button" asp-controller="Usuario" asp-action="Index">Voltar</a>
-        </div>
-    </div>
-</form>

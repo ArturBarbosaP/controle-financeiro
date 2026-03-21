@@ -4,67 +4,40 @@
     ViewData["Title"] = "Lista de Usuários";
 }
 
-<div class="text-center">
-
-    <h1 class="display-4">@ViewData["Title"]</h1>
-
-    @if (TempData["Sucesso"] != null)
-    {
-        <div class="alert alert-success alert-dismissible d-flex align-items-center fade show" role="alert">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
-            <div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                @TempData["Sucesso"]
-            </div>
-        </div>
-    }
-
-    @if (TempData["Erro"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" role="alert">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-            <div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                @TempData["Erro"]
-            </div>
-        </div>
-    }
-
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a role="button" class="btn btn-primary" asp-controller="Usuario" asp-action="Create">Criar novo usuário</a>
-    </div>
-
-    @if (Model != null && Model.Any())
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Usuário</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var usuario in Model)
-                {
-                    <tr>
-                        <th scope="row">@usuario.Id</th>
-                        <td>@usuario.Nome</td>
-                        <td>@usuario.NomeUsuario</td>
-                        <td>
-                            <div class="d-grid gap-2 d-md-block" role="group" aria-label="Ações">
-                                <a role="button" class="btn btn-info me-md-2" asp-controller="Usuario" asp-action="Read">Visualizar</a>
-                                <a role="button" class="btn btn-warning" asp-controller="Usuario" asp-action="Update">Editar</a>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <h2>Nenhum usuário cadastrado!</h2>
-    }
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a role="button" class="btn btn-primary" asp-controller="Usuario" asp-action="Create">Criar novo usuário</a>
 </div>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Usuário</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                <tr>
+                    <th scope="row">@usuario.Id</th>
+                    <td>@usuario.Nome</td>
+                    <td>@usuario.NomeUsuario</td>
+                    <td>
+                        <div class="d-grid gap-2 d-md-block" role="group" aria-label="Ações">
+                            <a role="button" class="btn btn-info me-md-2" asp-controller="Usuario" asp-action="Read">Visualizar</a>
+                            <a role="button" class="btn btn-warning" asp-controller="Usuario" asp-action="Update">Editar</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2>Nenhum usuário cadastrado!</h2>
+}

@@ -46,7 +46,31 @@
 
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <div class="text-center">
+                <h1 class="display-4">@ViewData["Title"]</h1>
+                @if (TempData["Sucesso"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible d-flex align-items-center fade show" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+                        <div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            @TempData["Sucesso"]
+                        </div>
+                    </div>
+                }
+
+                @if (TempData["Erro"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+                        <div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            @TempData["Erro"]
+                        </div>
+                    </div>
+                }
+                @RenderBody()
+            </div>
         </main>
     </div>
 
