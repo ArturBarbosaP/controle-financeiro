@@ -15,14 +15,6 @@ namespace MoneyWeb.Controllers
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
 
-        private int UsuarioId
-        {
-            get
-            {
-                return HttpContext.Session.GetUsuarioLogadoId()!.Value;
-            }
-        }
-
         private Task<Usuario> _usuario
         {
             get
@@ -56,6 +48,14 @@ namespace MoneyWeb.Controllers
             }
         }
 
+        public IActionResult Create()
+        {
+            ViewBag.Title = "Criar Categoria";
+            ViewBag.Action = "Create";
+
+            return View("CategoriaForm");
+        }
+
         public async Task<IActionResult> Update(int id)
         {
             try
@@ -80,6 +80,35 @@ namespace MoneyWeb.Controllers
             catch (Exception ex)
             {
                 return ExibirMensagem($"Erro ao editar categoria: {ex.Message}", false, "Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CategoriaViewModel categoriaViewModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Title = "Criar Categoria";
+                    ViewBag.Action = "Create";
+
+                    return View("CategoriaForm", categoriaViewModel);
+                }
+
+                Categoria categoriaInsert = _mapper.Map<Categoria>(categoriaViewModel);
+                categoriaInsert.UsuarioId = this.UsuarioId;
+                _repository.Add(categoriaInsert);
+
+                if (!await _repository.SaveChanges())
+                    throw new Exception("Não foi possível criar no banco de dados!");
+
+                return ExibirMensagem("Categoria criada com sucesso!", true, "Index");
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao criar categoria: {ex.Message}", false, "Index");
             }
         }
 

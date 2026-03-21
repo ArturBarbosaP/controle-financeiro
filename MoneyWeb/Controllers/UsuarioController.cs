@@ -15,14 +15,6 @@ namespace MoneyWeb.Controllers
         private readonly IUsuarioRepository _repository;
         private readonly IMapper _mapper;
 
-        private int UsuarioId
-        {
-            get
-            {
-                return HttpContext.Session.GetUsuarioLogadoId()!.Value;
-            }
-        }
-
         public UsuarioController(IUsuarioRepository repository, IMapper mapper)
         {
             _repository = repository;

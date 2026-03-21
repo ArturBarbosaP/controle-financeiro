@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MoneyWeb.Data;
 using MoneyWeb.Models.Entities;
 using MoneyWeb.Models.ViewModels;
 
@@ -20,6 +21,7 @@ namespace MoneyWeb.Helpers
             CreateMap<Categoria, CategoriaViewModel>();
 
             CreateMap<CategoriaViewModel, Categoria>()
+                .ForMember(dest => dest.Lancamentos, opt => opt.Ignore())
                 .ForMember(dest => dest.Usuario, opt => opt.Ignore())
                 .ForMember(dest => dest.UsuarioId, opt => opt.Ignore());
         }

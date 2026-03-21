@@ -6,6 +6,14 @@ namespace MoneyWeb.Controllers
 {
     public class BaseController : Controller
     {
+        public int UsuarioId
+        {
+            get
+            {
+                return HttpContext.Session.GetUsuarioLogadoId()!.Value;
+            }
+        }
+
         public IActionResult ExibirMensagem(string mensagem, bool sucesso, string action, string controller = null)
         {
             TempData[sucesso ? "Sucesso" : "Erro"] = mensagem;

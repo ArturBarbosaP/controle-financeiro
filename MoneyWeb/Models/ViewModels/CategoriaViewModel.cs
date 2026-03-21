@@ -12,7 +12,7 @@ namespace MoneyWeb.Models.ViewModels
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "Selecione o tipo da categoria!")]
-        [InList(["Despesa", "Receita", "Transf."], ErrorMessage = "O tipo da categoria pode ser apenas Despesa, Receita ou Transf.")]
+        [InList(["Despesa", "Receita"], ErrorMessage = "O tipo da categoria pode ser apenas Despesa ou Receita!")]
         public string Tipo { get; set; }
 
         [Required(ErrorMessage = "Selecione a cor da categoria!")]
