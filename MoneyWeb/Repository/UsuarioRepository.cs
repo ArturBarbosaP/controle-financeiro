@@ -24,6 +24,11 @@ namespace MoneyWeb.Repository
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Usuario> GetUsuarioByUsuario(string usuario)
+        {
+            return await _context.Usuarios.Where(x => x.NomeUsuario.Equals(usuario)).FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<Usuario>> GetUsuarios()
         {
             return await _context.Usuarios

@@ -7,5 +7,7 @@ namespace MoneyWeb.Repository.Interfaces
         Task<IEnumerable<Usuario>> GetUsuarios();
 
         Task<Usuario> GetUsuarioById(int id);
+
+        Task<Usuario> GetUsuarioByUsuario(string usuario);
     }
 }

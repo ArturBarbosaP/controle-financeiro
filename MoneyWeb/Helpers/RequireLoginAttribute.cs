@@ -15,11 +15,7 @@ namespace MoneyWeb.Helpers
                 return;
 
             if (!context.HttpContext.Session.IsUsuarioLogado())
-            {
-                string returnUrl = context.HttpContext.Request.Path + context.HttpContext.Request.QueryString;
-
-                context.Result = new RedirectToActionResult("Index", "Login", new { returnUrl = returnUrl });
-            }
+                context.Result = new RedirectToActionResult("Index", "Login", new {});
         }
     }
 }
