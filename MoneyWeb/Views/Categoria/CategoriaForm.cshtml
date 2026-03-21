@@ -1,0 +1,49 @@
+﻿@using MoneyWeb.Models.ViewModels
+@using MoneyWeb.Helpers
+@model CategoriaViewModel
+@{
+	ViewData["Title"] = ViewBag.Title;
+}
+
+<div class="text-start">
+	<form asp-controller="Categoria" asp-action="@ViewBag.Action" method="post">
+
+		@if (ViewBag.Action == "Update")
+		{
+			<input type="hidden" asp-for="Id" value="@Model.Id" />
+		}
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="Nome" class="form-control @Html.GetValidationCssClass(nameof(Model.Nome))" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
+			<span asp-validation-for="Nome" class="invalid-feedback"></span>
+			<label for="txtNome">Nome</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<select asp-for="Tipo" class="form-select @Html.GetValidationCssClass(nameof(Model.Tipo))" id="selectTipo" aria-describedby="tipoSelectHelp" placeholder="">
+				<option selected>Selecione um tipo</option>
+				<option value="Receita">Receita</option>
+				<option value="Despesa">Despesa</option>
+				<option value="Trasnf.">Transferência</option>
+			</select>
+			<span asp-validation-for="Tipo" class="invalid-feedback"></span>
+			<label for="selectTipo">Tipo</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="color" asp-for="Cor" class="form-control form-control-color @Html.GetValidationCssClass(nameof(Model.Cor))" id="colorPickerCor" title="Escolha a cor da categoria" placeholder="" style="width: 100%;">
+			<span asp-validation-for="Cor" class="invalid-feedback"></span>
+			<label for="colorPickerCor">Cor</label>
+		</div>
+
+		<div class="row">
+			<div class="col text-start">
+				<button type="submit" class="btn btn-primary">@ViewBag.Title</button>
+			</div>
+			<div class="col text-end">
+				<a class="btn btn-secondary" role="button" asp-controller="Categoria" asp-action="Index">Voltar</a>
+			</div>
+		</div>
+
+	</form>
+</div>

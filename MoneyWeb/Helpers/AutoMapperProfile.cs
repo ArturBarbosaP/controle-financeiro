@@ -18,6 +18,10 @@ namespace MoneyWeb.Helpers
                 .ForMember(dest => dest.Senha, opt => opt.Ignore());
 
             CreateMap<Categoria, CategoriaViewModel>();
+
+            CreateMap<CategoriaViewModel, Categoria>()
+                .ForMember(dest => dest.Usuario, opt => opt.Ignore())
+                .ForMember(dest => dest.UsuarioId, opt => opt.Ignore());
         }
     }
 }

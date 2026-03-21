@@ -23,6 +23,14 @@ namespace MoneyWeb.Controllers
             }
         }
 
+        private Task<Usuario> _usuario
+        {
+            get
+            {
+                return _usuarioRepository.GetUsuarioById(UsuarioId);
+            }
+        }
+
         public CategoriaController(ICategoriaRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
         {
             _repository = repository;
@@ -34,13 +42,74 @@ namespace MoneyWeb.Controllers
         {
             try
             {
-                Usuario usuario = await _usuarioRepository.GetUsuarioById(UsuarioId);
+                Usuario usuario = await _usuario;
+
+                if (usuario == null)
+                    return DeslogarUsuario();
+
                 var categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(usuario.Categorias);
                 return View(categorias);
             }
             catch (Exception ex)
             {
                 return ExibirViewErro($"Erro ao listar categorias: {ex.Message}");
+            }
+        }
+
+        public async Task<IActionResult> Update(int id)
+        {
+            try
+            {
+                Usuario usuario = await _usuario;
+
+                if (usuario == null)
+                    return DeslogarUsuario();
+
+                var categoria = usuario.Categorias.FirstOrDefault(c => c.Id == id);
+
+                if (categoria == null)
+                    return ExibirMensagem("Erro ao editar categoria: Você não tem permissão para editar essa categoria!", false, "Index");
+
+                CategoriaViewModel categoriaUpdate = _mapper.Map<CategoriaViewModel>(categoria);
+
+                ViewBag.Title = "Editar Categoria";
+                ViewBag.Action = "Update";
+
+                return View("CategoriaForm", categoriaUpdate);
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao editar categoria: {ex.Message}", false, "Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(CategoriaViewModel categoriaViewModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Title = "Editar Categoria";
+                    ViewBag.Action = "Update";
+
+                    return View("CategoriaForm", categoriaViewModel);
+                }
+
+                Categoria categoria = await _repository.GetCategoriaById(categoriaViewModel.Id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
+
+                Categoria categoriaUpdate = _mapper.Map(categoriaViewModel, categoria);
+                _repository.Update(categoriaUpdate);
+
+                if (!await _repository.SaveChanges())
+                    throw new Exception("Não foi possível salvar no banco de dados!");
+
+                return ExibirMensagem("Categoria salva com sucesso!", true, "Index");
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao salvar categoria: {ex.Message}", false, "Index");
             }
         }
     }

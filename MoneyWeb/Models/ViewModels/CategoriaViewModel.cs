@@ -19,7 +19,5 @@ namespace MoneyWeb.Models.ViewModels
         [Length(7, 7, ErrorMessage = "Apenas cores em hexadecimal são aceitas!")]
         [RegularExpression("^#[0-9A-Fa-f]{6}$", ErrorMessage = "Apenas cores em hexadecimal são aceitas!")]
         public string Cor { get; set; }
-
-        public int UsuarioId { get; set; }
     }
 }

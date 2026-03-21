@@ -30,8 +30,8 @@
                     <td>@categoria.Cor</td>
                     <td>
                         <div class="d-grid gap-2 d-md-block" role="group" aria-label="Ações">
-                            <a role="button" class="btn btn-info me-md-2" asp-controller="Categoria" asp-action="Read">Visualizar</a>
-                            <a role="button" class="btn btn-warning" asp-controller="Categoria" asp-action="Update">Editar</a>
+                            <a role="button" class="btn btn-info me-md-2" asp-controller="Categoria" asp-action="Read" asp-route-id="@categoria.Id">Visualizar</a>
+                            <a role="button" class="btn btn-warning" asp-controller="Categoria" asp-action="Update" asp-route-id="@categoria.Id">Editar</a>
                         </div>
                     </td>
                 </tr>
