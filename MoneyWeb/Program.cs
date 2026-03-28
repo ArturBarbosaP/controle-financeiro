@@ -19,6 +19,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IBaserepository, BaseRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IContaRepository, ContaRepository>();
 
 //BD EntityFramework
 builder.Services.AddDbContext<ApplicationContext>(options =>
