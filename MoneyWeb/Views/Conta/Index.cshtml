@@ -1,0 +1,43 @@
+﻿@using MoneyWeb.Models.ViewModels
+@model IEnumerable<ContaViewModel>
+@{
+    ViewData["Title"] = "Lista de Contas";
+}
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a role="button" class="btn btn-primary" asp-controller="Conta" asp-action="Create">Criar nova conta</a>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Saldo</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var conta in Model)
+            {
+                <tr>
+                    <th scope="row">@conta.Id</th>
+                    <td>@conta.Nome</td>
+                    <td>@conta.Saldo</td>
+                    <td>
+                        <div class="d-grid gap-2 d-md-block" role="group" aria-label="Ações">
+                            <a role="button" class="btn btn-info me-md-2" asp-controller="Conta" asp-action="Read" asp-route-id="@conta.Id">Visualizar</a>
+                            <a role="button" class="btn btn-warning" asp-controller="Conta" asp-action="Update" asp-route-id="@conta.Id">Editar</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2>Nenhuma conta cadastrada!</h2>
+}
