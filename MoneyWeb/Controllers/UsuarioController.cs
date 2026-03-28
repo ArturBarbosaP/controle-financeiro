@@ -15,6 +15,7 @@ namespace MoneyWeb.Controllers
     {
         private readonly IUsuarioRepository _repository;
         private readonly IMapper _mapper;
+        private const string _nomeForm = "UsuarioForm";
 
         public UsuarioController(IUsuarioRepository repository, IMapper mapper)
         {
@@ -22,11 +23,19 @@ namespace MoneyWeb.Controllers
             _mapper = mapper;
         }
 
+        private Task<Usuario> _usuario
+        {
+            get
+            {
+                return _repository.GetUsuarioById(UsuarioId);
+            }
+        }
+
         public async Task<IActionResult> Index()
         {
             try
             {
-                Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
+                Usuario usuario = await _usuario;
 
                 UsuarioViewModel usuarioRead = _mapper.Map<UsuarioViewModel>(usuario);
 
@@ -59,21 +68,21 @@ namespace MoneyWeb.Controllers
             ViewBag.Title = "Criar Usuário";
             ViewBag.Action = "Create";
 
-            return View("UsuarioForm");
+            return View(_nomeForm);
         }
 
         public async Task<IActionResult> Update()
         {
             try
             {
-                Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
+                Usuario usuario = await _usuario;
 
                 UsuarioViewModel usuarioUpdate = _mapper.Map<UsuarioViewModel>(usuario);
 
                 ViewBag.Title = "Editar Usuário";
                 ViewBag.Action = "Update";
 
-                return View("UsuarioForm", usuarioUpdate);
+                return View(_nomeForm, usuarioUpdate);
             }
             catch (Exception ex)
             {
@@ -85,7 +94,7 @@ namespace MoneyWeb.Controllers
         {
             try
             {
-                Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
+                Usuario usuario = await _usuario;
 
                 UsuarioViewModel usuarioRead = _mapper.Map<UsuarioViewModel>(usuario);
 
@@ -103,7 +112,7 @@ namespace MoneyWeb.Controllers
         {
             try
             {
-                Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
+                Usuario usuario = await _usuario;
 
                 _repository.Delete(usuario);
 
@@ -135,7 +144,7 @@ namespace MoneyWeb.Controllers
                 {
                     ViewBag.Title = "Criar Usuário";
                     ViewBag.Action = "Create";
-                    return View("UsuarioForm", usuario);
+                    return View(_nomeForm, usuario);
                 }
 
                 Usuario usuarioInsert = _mapper.Map<Usuario>(usuario);
@@ -151,7 +160,7 @@ namespace MoneyWeb.Controllers
                 ModelState.AddModelError(nameof(UsuarioViewModel.NomeUsuario), "Este usuário já está em uso!");
                 ViewBag.Title = "Criar Usuário";
                 ViewBag.Action = "Create";
-                return View("UsuarioForm", usuario);
+                return View(_nomeForm, usuario);
             }
             catch (Exception ex)
             {
@@ -170,10 +179,10 @@ namespace MoneyWeb.Controllers
                     ViewBag.Title = "Editar Usuário";
                     ViewBag.Action = "Update";
 
-                    return View("UsuarioForm", usuarioViewModel);
+                    return View(_nomeForm, usuarioViewModel);
                 }
 
-                Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
+                Usuario usuario = await _usuario;
 
                 Usuario usuarioUpdate = _mapper.Map(usuarioViewModel, usuario);
                 _repository.Update(usuarioUpdate);
@@ -214,7 +223,7 @@ namespace MoneyWeb.Controllers
                     return View("Index", usuarioViewModel);
                 }
 
-                Usuario usuario = await _repository.GetUsuarioById(UsuarioId);
+                Usuario usuario = await _usuario;
 
                 if (!PasswordHelper.VerifyPassword(usuarioViewModel.SenhaAtual, usuario.Senha))
                 {

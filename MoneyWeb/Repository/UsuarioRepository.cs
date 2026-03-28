@@ -18,8 +18,7 @@ namespace MoneyWeb.Repository
         {
             return await _context.Usuarios
                 .Include(x => x.Categorias)
-                .ThenInclude(x => x.Lancamentos)
-                .ThenInclude(x => x.Conta)
+                .Include(x => x.Contas)
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
         }

@@ -25,7 +25,7 @@ namespace MoneyWeb.Helpers
             if (valueStr.Split('.')[1].Length <= _precisao)
                 return ValidationResult.Success;
 
-            return new ValidationResult(ErrorMessage ?? $"{validationContext.DisplayName} aceita apenas {_precisao} casas decimais!");
+            return new ValidationResult(ErrorMessage ?? $"O {validationContext.DisplayName} aceita apenas {_precisao} casas decimais!");
         }
     }
 }

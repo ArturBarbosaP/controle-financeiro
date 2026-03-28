@@ -13,6 +13,14 @@ namespace MoneyWeb.Controllers
         private readonly ICategoriaRepository _repository;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
+        private const string _nomeForm = "CategoriaForm";
+
+        public CategoriaController(ICategoriaRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
+        {
+            _repository = repository;
+            _usuarioRepository = usuarioRepository;
+            _mapper = mapper;
+        }
 
         private Task<Usuario> _usuario
         {
@@ -27,13 +35,6 @@ namespace MoneyWeb.Controllers
             Usuario usuario = await _usuario;
 
             return usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
-        }
-
-        public CategoriaController(ICategoriaRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
-        {
-            _repository = repository;
-            _usuarioRepository = usuarioRepository;
-            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -56,7 +57,7 @@ namespace MoneyWeb.Controllers
             ViewBag.Title = "Criar Categoria";
             ViewBag.Action = "Create";
 
-            return View("CategoriaForm");
+            return View(_nomeForm);
         }
 
         public async Task<IActionResult> Update(int id)
@@ -68,7 +69,7 @@ namespace MoneyWeb.Controllers
                 ViewBag.Title = "Editar Categoria";
                 ViewBag.Action = "Update";
 
-                return View("CategoriaForm", categoriaUpdate);
+                return View(_nomeForm, categoriaUpdate);
             }
             catch (Exception ex)
             {
@@ -118,7 +119,7 @@ namespace MoneyWeb.Controllers
                     ViewBag.Title = "Criar Categoria";
                     ViewBag.Action = "Create";
 
-                    return View("CategoriaForm", categoriaViewModel);
+                    return View(_nomeForm, categoriaViewModel);
                 }
 
                 Categoria categoriaInsert = _mapper.Map<Categoria>(categoriaViewModel);
@@ -147,7 +148,7 @@ namespace MoneyWeb.Controllers
                     ViewBag.Title = "Editar Categoria";
                     ViewBag.Action = "Update";
 
-                    return View("CategoriaForm", categoriaViewModel);
+                    return View(_nomeForm, categoriaViewModel);
                 }
 
                 Categoria categoria = await GetCategoria(categoriaViewModel.Id);
