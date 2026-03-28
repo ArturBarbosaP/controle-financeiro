@@ -8,6 +8,6 @@ namespace MoneyWeb.Repository.Interfaces
 
         Task<Usuario> GetUsuarioById(int id);
 
-        Task<Usuario> GetUsuarioByUsuario(string usuario);
+        Task<Usuario> GetUsuarioByNomeUsuario(string usuario);
     }
 }

@@ -45,7 +45,7 @@ namespace MoneyWeb.Controllers
                 if (!ModelState.IsValid)
                     return View(login);
 
-                Usuario user = await _repository.GetUsuarioByUsuario(login.Usuario);
+                Usuario user = await _repository.GetUsuarioByNomeUsuario(login.Usuario);
 
                 if (user == null || !PasswordHelper.VerifyPassword(login.Senha, user.Senha))
                 {

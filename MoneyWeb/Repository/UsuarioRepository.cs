@@ -17,15 +17,15 @@ namespace MoneyWeb.Repository
         public async Task<Usuario> GetUsuarioById(int id)
         {
             return await _context.Usuarios
-                .Include(x => x.Categorias)
-                .Include(x => x.Contas)
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Usuario> GetUsuarioByUsuario(string usuario)
+        public async Task<Usuario> GetUsuarioByNomeUsuario(string usuario)
         {
-            return await _context.Usuarios.Where(x => x.NomeUsuario.Equals(usuario)).FirstOrDefaultAsync();
+            return await _context.Usuarios
+                .Where(x => x.NomeUsuario.Equals(usuario))
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Usuario>> GetUsuarios()
