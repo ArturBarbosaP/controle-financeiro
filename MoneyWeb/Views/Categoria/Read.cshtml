@@ -49,8 +49,11 @@
 					<b>Essa ação não poderá ser desfeita!</b>
 				</div>
 				<div class="modal-footer justify-content-between">
-					<a role="button" class="btn btn-danger" asp-controller="Categoria" asp-action="Delete" asp-route-id="@Model.Id">Excluir</a>
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<form asp-controller="Categoria" asp-action="Delete" method="post">
+						<input type="hidden" asp-for="Id" value="@Model.Id" />
+						<button type="submit" class="btn btn-danger">Excluir</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					</form>
 				</div>
 			</div>
 		</div>
