@@ -11,39 +11,25 @@ namespace MoneyWeb.Controllers
     public class ContaController : BaseController
     {
         private readonly IContaRepository _repository;
-        private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
         private const string _nomeForm = "ContaForm";
 
-        public ContaController(IContaRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
+        public ContaController(IContaRepository repository, IMapper mapper)
         {
             _repository = repository;
-            _usuarioRepository = usuarioRepository;
             _mapper = mapper;
-        }
-
-        private Task<Usuario> _usuario
-        {
-            get
-            {
-                return _usuarioRepository.GetUsuarioById(UsuarioId);
-            }
         }
 
         private async Task<Conta> GetConta(int id)
         {
-            Usuario usuario = await _usuario;
-
-            return usuario.Contas.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para editar essa conta!");
+            return await _repository.GetContaById(id, UsuarioId) ?? throw new Exception("A conta não existe!");
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                Usuario usuario = await _usuario;
-
-                var contas = _mapper.Map<IEnumerable<ContaViewModel>>(usuario.Contas);
+                var contas = _mapper.Map<IEnumerable<ContaViewModel>>(await _repository.GetContas(UsuarioId));
                 return View(contas);
             }
             catch (Exception ex)

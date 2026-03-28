@@ -14,16 +14,18 @@ namespace MoneyWeb.Repository
             _context = context;
         }
 
-        public async Task<Conta> GetContaById(int id)
+        public async Task<Conta> GetContaById(int id, int usuarioId)
         {
             return await _context.Contas
+                .Where(u => u.UsuarioId == usuarioId)
                 .Where(c => c.Id == id)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Conta>> GetContas()
+        public async Task<IEnumerable<Conta>> GetContas(int usuarioId)
         {
             return await _context.Contas
+                .Where(u => u.UsuarioId == usuarioId)
                 .ToListAsync();
         }
     }

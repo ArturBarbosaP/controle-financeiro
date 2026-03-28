@@ -4,8 +4,8 @@ namespace MoneyWeb.Repository.Interfaces
 {
     public interface IContaRepository : IBaserepository
     {
-        Task<IEnumerable<Conta>> GetContas();
+        Task<IEnumerable<Conta>> GetContas(int usuarioId);
 
-        Task<Conta> GetContaById(int id);
+        Task<Conta> GetContaById(int id, int usuarioId);
     }
 }
