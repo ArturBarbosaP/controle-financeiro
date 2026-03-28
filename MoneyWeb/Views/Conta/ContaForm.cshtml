@@ -1,0 +1,39 @@
+﻿@using MoneyWeb.Models.ViewModels
+@using MoneyWeb.Helpers
+@model ContaViewModel
+@{
+	ViewData["Title"] = ViewBag.Title;
+}
+
+<div class="text-start">
+	<form asp-controller="Conta" asp-action="@ViewBag.Action" method="post">
+
+		@if (ViewBag.Action == "Update")
+		{
+			<input type="hidden" asp-for="Id" value="@Model.Id" />
+		}
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="Nome" class="form-control @Html.GetValidationCssClass(nameof(Model.Nome))" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
+			<span asp-validation-for="Nome" class="invalid-feedback"></span>
+			<label for="txtNome">Nome</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="Saldo" class="form-control @Html.GetValidationCssClass(nameof(Model.Saldo))" id="txtSaldo" aria-describedby="nomeHelp" placeholder="0,00" inputmode="decimal" />
+			<span asp-validation-for="Saldo" class="invalid-feedback"></span>
+			<label for="txtSaldo">Saldo</label>
+		</div>
+
+
+		<div class="row">
+			<div class="col text-start">
+				<button type="submit" class="btn btn-primary">@ViewBag.Title</button>
+			</div>
+			<div class="col text-end">
+				<a class="btn btn-secondary" role="button" asp-controller="Conta" asp-action="Index">Voltar</a>
+			</div>
+		</div>
+
+	</form>
+</div>

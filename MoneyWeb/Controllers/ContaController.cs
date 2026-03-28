@@ -41,5 +41,42 @@ namespace MoneyWeb.Controllers
                 return ExibirViewErro($"Erro ao listar contas: {ex.Message}");
             }
         }
+
+        public IActionResult Create()
+        {
+            ViewBag.Title = "Criar Conta";
+            ViewBag.Action = "Create";
+
+            return View("ContaForm");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ContaViewModel contaViewModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Title = "Criar Conta";
+                    ViewBag.Action = "Create";
+
+                    return View("ContaForm", contaViewModel);
+                }
+
+                Conta contaInsert = _mapper.Map<Conta>(contaViewModel);
+                contaInsert.UsuarioId = this.UsuarioId;
+                _repository.Add(contaInsert);
+
+                if (!await _repository.SaveChanges())
+                    throw new Exception("Não foi possível criar no banco de dados!");
+
+                return ExibirMensagem("Conta criada com sucesso!", true, "Index");
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao criar conta: {ex.Message}", false, "Index");
+            }
+        }
     }
 }

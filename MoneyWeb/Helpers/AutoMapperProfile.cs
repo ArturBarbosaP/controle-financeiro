@@ -30,6 +30,12 @@ namespace MoneyWeb.Helpers
                 .ForMember(dest => dest.UsuarioId, opt => opt.Ignore());
 
             CreateMap<Conta, ContaViewModel>();
+
+            CreateMap<ContaViewModel, Conta>()
+                .ForMember(dest => dest.Cartoes, opt => opt.Ignore())
+                .ForMember(dest => dest.Lancamentos, opt => opt.Ignore())
+                .ForMember(dest => dest.Usuario, opt => opt.Ignore())
+                .ForMember(dest => dest.UsuarioId, opt => opt.Ignore());
         }
     }
 }

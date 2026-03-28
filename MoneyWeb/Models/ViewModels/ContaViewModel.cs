@@ -12,6 +12,7 @@ namespace MoneyWeb.Models.ViewModels
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "Digite o saldo da conta!")]
+        [DecimalPrecision(2)]
         public decimal Saldo { get; set; }
     }
 }
