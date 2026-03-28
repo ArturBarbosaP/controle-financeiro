@@ -11,39 +11,25 @@ namespace MoneyWeb.Controllers
     public class CategoriaController : BaseController
     {
         private readonly ICategoriaRepository _repository;
-        private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
         private const string _nomeForm = "CategoriaForm";
 
-        public CategoriaController(ICategoriaRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
+        public CategoriaController(ICategoriaRepository repository, IMapper mapper)
         {
             _repository = repository;
-            _usuarioRepository = usuarioRepository;
             _mapper = mapper;
-        }
-
-        private Task<Usuario> _usuario
-        {
-            get
-            {
-                return _usuarioRepository.GetUsuarioById(UsuarioId);
-            }
         }
 
         private async Task<Categoria> GetCategoria(int id)
         {
-            Usuario usuario = await _usuario;
-
-            return usuario.Categorias.FirstOrDefault(c => c.Id == id) ?? throw new Exception("Você não tem permissão para editar essa categoria!");
+            return await _repository.GetCategoriaById(id, UsuarioId) ?? throw new Exception("A categoria não existe!");
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                Usuario usuario = await _usuario;
-
-                var categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(usuario.Categorias);
+                var categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(await _repository.GetCategorias(UsuarioId));
                 return View(categorias);
             }
             catch (Exception ex)
