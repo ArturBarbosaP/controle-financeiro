@@ -3,7 +3,7 @@ using MoneyWeb.Repository.Interfaces;
 
 namespace MoneyWeb.Repository
 {
-    public class BaseRepository : IBaserepository
+    public class BaseRepository : IBaseRepository
     {
         private readonly ApplicationContext _context;
 

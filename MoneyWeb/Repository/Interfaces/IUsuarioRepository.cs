@@ -2,7 +2,7 @@
 
 namespace MoneyWeb.Repository.Interfaces
 {
-    public interface IUsuarioRepository : IBaserepository
+    public interface IUsuarioRepository : IBaseRepository
     {
         Task<IEnumerable<Usuario>> GetUsuarios();
 

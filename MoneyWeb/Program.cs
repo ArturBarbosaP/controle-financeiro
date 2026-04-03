@@ -22,10 +22,11 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddAutoMapper(typeof(Program));
 
 //dependency injection das interface das entidades
-builder.Services.AddScoped<IBaserepository, BaseRepository>();
+builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IContaRepository, ContaRepository>();
+builder.Services.AddScoped<ICartaoRepository, CartaoRepository>();
 
 //BD EntityFramework
 builder.Services.AddDbContext<ApplicationContext>(options =>

@@ -2,7 +2,7 @@
 
 namespace MoneyWeb.Repository.Interfaces
 {
-    public interface ICategoriaRepository : IBaserepository
+    public interface ICategoriaRepository : IBaseRepository
     {
         Task<IEnumerable<Categoria>> GetCategorias(int usuarioId);
 
