@@ -12,6 +12,8 @@
 
         public Usuario Usuario { get; set; }
 
+        public Limite Limite {  get; set; }
+
         public List<Lancamento> Lancamentos { get; set; }
     }
 }

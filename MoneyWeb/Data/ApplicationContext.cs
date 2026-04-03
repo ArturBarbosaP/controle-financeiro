@@ -13,6 +13,7 @@ namespace MoneyWeb.Data
         public DbSet<Conta> Contas { get; set; }
         public DbSet<Cartao> Cartoes { get; set; }
         public DbSet<Lancamento> Lancamentos { get; set; }
+        public DbSet<Limite> Limites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -27,7 +27,8 @@ namespace MoneyWeb.Helpers
             CreateMap<CategoriaViewModel, Categoria>()
                 .ForMember(dest => dest.Lancamentos, opt => opt.Ignore())
                 .ForMember(dest => dest.Usuario, opt => opt.Ignore())
-                .ForMember(dest => dest.UsuarioId, opt => opt.Ignore());
+                .ForMember(dest => dest.UsuarioId, opt => opt.Ignore())
+                .ForMember(dest => dest.Limite, opt => opt.Ignore());
 
             CreateMap<Conta, ContaViewModel>();
 
