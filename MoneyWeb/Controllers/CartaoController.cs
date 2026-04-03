@@ -4,7 +4,6 @@ using MoneyWeb.Helpers;
 using MoneyWeb.Models.Entities;
 using MoneyWeb.Models.ViewModels;
 using MoneyWeb.Repository.Interfaces;
-using System.Threading.Tasks;
 
 namespace MoneyWeb.Controllers
 {
@@ -77,6 +76,19 @@ namespace MoneyWeb.Controllers
             catch (Exception ex)
             {
                 return ExibirMensagem($"Erro ao editar cartão: {ex.Message}", false, "Index");
+            }
+        }
+
+        public async Task<IActionResult> Read(int id)
+        {
+            try
+            {
+                CartaoViewModel cartaoRead = _mapper.Map<CartaoViewModel>(await GetCartao(id));
+                return View(cartaoRead);
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao visualizar cartão: {ex.Message}", false, "Index");
             }
         }
 
