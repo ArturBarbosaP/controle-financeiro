@@ -1,0 +1,51 @@
+﻿@using MoneyWeb.Models.ViewModels
+@model IEnumerable<LancamentoViewModel>
+@{
+    ViewData["Title"] = "Lista de Lançamentos";
+}
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a role="button" class="btn btn-primary" asp-controller="Lancamento" asp-action="Create">Criar novo lançamento</a>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Conta</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Descricao</th>
+                <th scope="col">Data</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lancamento in Model)
+            {
+                <tr>
+                    <th scope="row">@lancamento.Id</th>
+                    <td>@lancamento.CategoriaNome</td>
+                    <td>@lancamento.ContaNome</td>
+                    <td>@lancamento.Tipo</td>
+                    <td>@lancamento.Valor</td>
+                    <td>@lancamento.Descricao</td>
+                    <td>@lancamento.Data</td>
+                    <td>
+                        <div class="d-grid gap-2 d-md-block" role="group" aria-label="Ações">
+                            <a role="button" class="btn btn-info me-md-2" asp-controller="Lancamento" asp-action="Read" asp-route-id="@lancamento.Id">Visualizar</a>
+                            <a role="button" class="btn btn-warning" asp-controller="Lancamento" asp-action="Update" asp-route-id="@lancamento.Id">Editar</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2>Nenhum lançamento cadastrado no mês!</h2>
+}

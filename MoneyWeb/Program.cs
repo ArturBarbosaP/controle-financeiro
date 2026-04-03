@@ -28,6 +28,7 @@ builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IContaRepository, ContaRepository>();
 builder.Services.AddScoped<ICartaoRepository, CartaoRepository>();
 builder.Services.AddScoped<ILimiteRepository, LimiteRepository>();
+builder.Services.AddScoped<ILancamentoRepository, LancamentoRepository>();
 
 //BD EntityFramework
 builder.Services.AddDbContext<ApplicationContext>(options =>
