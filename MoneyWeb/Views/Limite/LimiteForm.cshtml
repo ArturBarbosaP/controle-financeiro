@@ -12,19 +12,28 @@
 		@if (ViewBag.Action == "Update")
 		{
 			<input type="hidden" asp-for="Id" value="@Model.Id" />
-		}
 
-		<div class="form-floating mb-3">
-			<select asp-for="CategoriaId" class="form-select @Html.GetValidationCssClass(nameof(Model.CategoriaId))" id="selectCategoria" aria-describedby="tipoSelectHelp" placeholder="">
-				<option selected>Selecione uma categoria</option>
-				@foreach (Categoria categoria in ViewBag.Categorias)
-				{
-					<option value="@categoria.Id">@categoria.Nome</option>
-				}
-			</select>
-			<span asp-validation-for="CategoriaId" class="invalid-feedback"></span>
-			<label for="selectCategoria">Categoria</label>
-		</div>
+			<div class="form-floating mb-3">
+				<select asp-for="CategoriaId" class="form-select" id="selectCategoria" aria-describedby="tipoSelectHelp" placeholder="" disabled readonly>
+					<option value="@Model.CategoriaId">@Model.CategoriaNome</option>
+				</select>
+				<label for="selectCategoria">Categoria</label>
+			</div>
+		}
+		else
+		{
+			<div class="form-floating mb-3">
+				<select asp-for="CategoriaId" class="form-select @Html.GetValidationCssClass(nameof(Model.CategoriaId))" id="selectCategoria" aria-describedby="tipoSelectHelp" placeholder="">
+					<option selected>Selecione uma categoria</option>
+					@foreach (Categoria categoria in ViewBag.Categorias)
+					{
+						<option value="@categoria.Id">@categoria.Nome</option>
+					}
+				</select>
+				<span asp-validation-for="CategoriaId" class="invalid-feedback"></span>
+				<label for="selectCategoria">Categoria</label>
+			</div>
+		}
 
 		<div class="form-floating mb-3">
 			<input type="text" asp-for="ValorLimite" class="form-control @Html.GetValidationCssClass(nameof(Model.ValorLimite))" id="txtLimite" aria-describedby="nomeHelp" placeholder="0,00" inputmode="decimal" />

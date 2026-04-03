@@ -5,6 +5,7 @@ using MoneyWeb.Helpers;
 using MoneyWeb.Models.Entities;
 using MoneyWeb.Models.ViewModels;
 using MoneyWeb.Repository.Interfaces;
+using System.Threading.Tasks;
 
 namespace MoneyWeb.Controllers
 {
@@ -26,6 +27,11 @@ namespace MoneyWeb.Controllers
         private async Task<IEnumerable<Categoria>> GetCategorias()
         {
             return await _categoriaRepository.GetCategoriasDeDespesa(UsuarioId);
+        }
+
+        private async Task<Limite> GetLimite(int id)
+        {
+            return await _repository.GetLimiteById(id, UsuarioId) ?? throw new Exception("O limite não existe!");
         }
 
         public async Task<IActionResult> Index()
@@ -54,6 +60,23 @@ namespace MoneyWeb.Controllers
             catch (Exception ex)
             {
                 return ExibirMensagem($"Erro ao criar limite: {ex.Message}", false, "Index");
+            }
+        }
+
+        public async Task<IActionResult> Update(int id)
+        {
+            try
+            {
+                LimiteViewModel limiteUpdate = _mapper.Map<LimiteViewModel>(await GetLimite(id));
+
+                ViewBag.Title = "Editar Limite";
+                ViewBag.Action = "Update";
+
+                return View(_nomeForm, limiteUpdate);
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao editar limite: {ex.Message}", false, "Index");
             }
         }
 
@@ -94,6 +117,41 @@ namespace MoneyWeb.Controllers
             catch (Exception ex)
             {
                 return ExibirMensagem($"Erro ao criar limite: {ex.Message}", false, "Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(LimiteViewModel limiteViewModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Title = "Editar Limite";
+                    ViewBag.Action = "Update";
+
+                    return View(_nomeForm, limiteViewModel);
+                }
+
+                Limite limite = await GetLimite(limiteViewModel.Id);
+
+                Limite limiteUpdate = new() //alterando apenas o valor
+                {
+                    CategoriaId = limite.CategoriaId,
+                    ValorLimite = limiteViewModel.ValorLimite,
+                };
+
+                _repository.Update(limiteUpdate);
+
+                if (!await _repository.SaveChanges())
+                    throw new Exception("Não foi possível salvar no banco de dados!");
+
+                return ExibirMensagem("Limite salvo com sucesso!", true, "Index");
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao salvar limite: {ex.Message}", false, "Index");
             }
         }
     }
