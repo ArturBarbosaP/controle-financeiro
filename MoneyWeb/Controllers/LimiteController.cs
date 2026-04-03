@@ -95,6 +95,25 @@ namespace MoneyWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                _repository.Delete(await GetLimite(id));
+
+                if (!await _repository.SaveChanges())
+                    throw new Exception("Não foi possível excluir no banco de dados!");
+
+                return ExibirMensagem("Limite excluído com sucesso!", true, "Index");
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao excluir limite: {ex.Message}", false, "Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LimiteViewModel limiteViewModel)
         {
             try
