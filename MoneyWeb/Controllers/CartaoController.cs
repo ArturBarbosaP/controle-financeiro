@@ -4,6 +4,7 @@ using MoneyWeb.Helpers;
 using MoneyWeb.Models.Entities;
 using MoneyWeb.Models.ViewModels;
 using MoneyWeb.Repository.Interfaces;
+using System.Threading.Tasks;
 
 namespace MoneyWeb.Controllers
 {
@@ -89,6 +90,25 @@ namespace MoneyWeb.Controllers
             catch (Exception ex)
             {
                 return ExibirMensagem($"Erro ao visualizar cartão: {ex.Message}", false, "Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                _repository.Delete(await GetCartao(id));
+
+                if (!await _repository.SaveChanges())
+                    throw new Exception("Não foi possível excluir no banco de dados!");
+
+                return ExibirMensagem("Cartão excluído com sucesso!", true, "Index");
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao excluir cartão: {ex.Message}", false, "Index");
             }
         }
 
