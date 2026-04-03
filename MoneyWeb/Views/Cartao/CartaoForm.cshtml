@@ -1,0 +1,75 @@
+﻿@using MoneyWeb.Models.Entities
+@using MoneyWeb.Models.ViewModels
+@using MoneyWeb.Helpers
+@model CartaoViewModel
+@{
+	ViewData["Title"] = ViewBag.Title;
+}
+
+<div class="text-start">
+	<form asp-controller="Cartao" asp-action="@ViewBag.Action" method="post">
+
+		@if (ViewBag.Action == "Update")
+		{
+			<input type="hidden" asp-for="Id" value="@Model.Id" />
+		}
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="Nome" class="form-control @Html.GetValidationCssClass(nameof(Model.Nome))" id="txtNome" aria-describedby="nomeHelp" placeholder="" />
+			<span asp-validation-for="Nome" class="invalid-feedback"></span>
+			<label for="txtNome">Nome</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<select asp-for="ContaId" class="form-select @Html.GetValidationCssClass(nameof(Model.ContaId))" id="selectConta" aria-describedby="tipoSelectHelp" placeholder="">
+				<option selected>Selecione uma conta</option>
+				@foreach (Conta conta in ViewBag.Contas)
+				{
+					<option value="@conta.Id">@conta.Nome</option>
+				}
+			</select>
+			<span asp-validation-for="ContaId" class="invalid-feedback"></span>
+			<label for="selectConta">Conta</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="date" asp-for="DataFechamento" class="form-control @Html.GetValidationCssClass(nameof(Model.DataFechamento))" id="dtpDataFechamento" aria-describedby="nomeHelp" placeholder="" />
+			<span asp-validation-for="DataFechamento" class="invalid-feedback"></span>
+			<label for="dtpDataFechamento">Data de Fechamento</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="date" asp-for="DataVencimento" class="form-control @Html.GetValidationCssClass(nameof(Model.DataVencimento))" id="dtpDataVencimento" aria-describedby="nomeHelp" placeholder="" />
+			<span asp-validation-for="DataVencimento" class="invalid-feedback"></span>
+			<label for="dtpDataVencimento">Data de Vencimento</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="Limite" class="form-control @Html.GetValidationCssClass(nameof(Model.Limite))" id="txtLimite" aria-describedby="nomeHelp" placeholder="0,00" inputmode="decimal" />
+			<span asp-validation-for="Limite" class="invalid-feedback"></span>
+			<label for="txtLimite">Limite</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="LimiteDisponivel" class="form-control @Html.GetValidationCssClass(nameof(Model.LimiteDisponivel))" id="txtLimiteDisponivel" aria-describedby="nomeHelp" placeholder="0,00" inputmode="decimal" />
+			<span asp-validation-for="LimiteDisponivel" class="invalid-feedback"></span>
+			<label for="txtLimiteDisponivel">Limite Disponível</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="ValorParcelado" class="form-control @Html.GetValidationCssClass(nameof(Model.ValorParcelado))" id="txtValorParcelado" aria-describedby="nomeHelp" placeholder="0,00" inputmode="decimal" />
+			<span asp-validation-for="ValorParcelado" class="invalid-feedback"></span>
+			<label for="txtValorParcelado">Valor Parcelado</label>
+		</div>
+
+		<div class="row">
+			<div class="col text-start">
+				<button type="submit" class="btn btn-primary">@ViewBag.Title</button>
+			</div>
+			<div class="col text-end">
+				<a class="btn btn-secondary" role="button" asp-controller="Cartao" asp-action="Index">Voltar</a>
+			</div>
+		</div>
+
+	</form>
+</div>

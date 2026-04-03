@@ -31,5 +31,10 @@ namespace MoneyWeb.Models.ViewModels
         [Required(ErrorMessage = "Digite o valor parcelado do cartão!")]
         [DecimalPrecision(2)]
         public decimal ValorParcelado { get; set; }
+
+        [Required(ErrorMessage = "Escolha a conta do cartão!")]
+        public int ContaId { get; set; }
+
+        public string? ContaNome { get; set; }
     }
 }
