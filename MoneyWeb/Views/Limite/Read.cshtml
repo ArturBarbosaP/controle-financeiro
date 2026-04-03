@@ -1,0 +1,56 @@
+﻿@using MoneyWeb.Models.Entities
+@using MoneyWeb.Models.ViewModels
+@model LimiteViewModel
+@{
+	ViewData["Title"] = "Visualizar Limite";
+}
+
+<div class="text-start">
+	<form>
+		<div class="form-floating mb-3">
+			<select asp-for="CategoriaId" class="form-select" id="selectCategoria" aria-describedby="tipoSelectHelp" placeholder="" disabled readonly>
+				<option value="@Model.CategoriaId">@Model.CategoriaNome</option>
+			</select>
+			<label for="selectCategoria">Categoria</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="ValorLimite" class="form-control" id="txtLimite" aria-describedby="nomeHelp" placeholder="0,00" inputmode="decimal" disabled readonly />
+			<label for="txtLimite">Valor Limite</label>
+		</div>
+
+		<div class="row">
+			<div class="col text-start">
+				<a class="btn btn-warning" role="button" asp-controller="Limite" asp-action="Update" asp-route-id="@Model.Id">Editar</a>
+			</div>
+			<div class="col text-center">
+				<a class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
+			</div>
+			<div class="col text-end">
+				<a class="btn btn-secondary" role="button" asp-controller="Limite" asp-action="Index">Voltar</a>
+			</div>
+		</div>
+	</form>
+
+	<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Excluir Limite</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					Você realmente deseja excluir o limite para a categoria @Model.CategoriaNome? <br>
+					<b>Essa ação não poderá ser desfeita!</b>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<form asp-controller="Limite" asp-action="Delete" method="post">
+						<input type="hidden" asp-for="Id" value="@Model.Id" />
+						<button type="submit" class="btn btn-danger">Excluir</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -80,6 +80,19 @@ namespace MoneyWeb.Controllers
             }
         }
 
+        public async Task<IActionResult> Read(int id)
+        {
+            try
+            {
+                LimiteViewModel limiteRead = _mapper.Map<LimiteViewModel>(await GetLimite(id));
+                return View(limiteRead);
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao visualizar limite: {ex.Message}", false, "Index");
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LimiteViewModel limiteViewModel)
@@ -135,14 +148,9 @@ namespace MoneyWeb.Controllers
                 }
 
                 Limite limite = await GetLimite(limiteViewModel.Id);
+                limite.ValorLimite = limiteViewModel.ValorLimite;
 
-                Limite limiteUpdate = new() //alterando apenas o valor
-                {
-                    CategoriaId = limite.CategoriaId,
-                    ValorLimite = limiteViewModel.ValorLimite,
-                };
-
-                _repository.Update(limiteUpdate);
+                _repository.Update(limite);
 
                 if (!await _repository.SaveChanges())
                     throw new Exception("Não foi possível salvar no banco de dados!");
