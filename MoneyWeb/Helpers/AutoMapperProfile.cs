@@ -44,6 +44,12 @@ namespace MoneyWeb.Helpers
             CreateMap<CartaoViewModel, Cartao>()
                 .ForMember(dest => dest.Lancamentos, opt => opt.Ignore())
                 .ForMember(dest => dest.Conta, opt => opt.Ignore());
+
+            CreateMap<Limite, LimiteViewModel>()
+                .ForMember(dest => dest.CategoriaNome, opt => opt.MapFrom(src => src.Categoria.Nome));
+
+            CreateMap<LimiteViewModel, Limite>()
+                .ForMember(dest => dest.Categoria, opt => opt.Ignore());
         }
     }
 }

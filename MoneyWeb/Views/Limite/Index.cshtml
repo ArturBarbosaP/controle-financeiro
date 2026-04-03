@@ -1,0 +1,43 @@
+﻿@using MoneyWeb.Models.ViewModels
+@model IEnumerable<LimiteViewModel>
+@{
+    ViewData["Title"] = "Lista de Limites";
+}
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a role="button" class="btn btn-primary" asp-controller="Limite" asp-action="Create">Criar novo limite</a>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Valor</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var limite in Model)
+            {
+                <tr>
+                    <th scope="row">@limite.Id</th>
+                    <td>@limite.CategoriaNome</td>
+                    <td>@limite.ValorLimite</td>
+                    <td>
+                        <div class="d-grid gap-2 d-md-block" role="group" aria-label="Ações">
+                            <a role="button" class="btn btn-info me-md-2" asp-controller="Limite" asp-action="Read" asp-route-id="@limite.Id">Visualizar</a>
+                            <a role="button" class="btn btn-warning" asp-controller="Limite" asp-action="Update" asp-route-id="@limite.Id">Editar</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2>Nenhum limite cadastrado!</h2>
+}
