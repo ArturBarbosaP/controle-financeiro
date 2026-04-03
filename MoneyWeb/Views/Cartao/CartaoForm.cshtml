@@ -23,7 +23,7 @@
 		<div class="form-floating mb-3">
 			<select asp-for="ContaId" class="form-select @Html.GetValidationCssClass(nameof(Model.ContaId))" id="selectConta" aria-describedby="tipoSelectHelp" placeholder="">
 				<option selected>Selecione uma conta</option>
-				@foreach (Conta conta in ViewBag.Contas)
+				@foreach (ContaViewModel conta in ViewBag.Contas)
 				{
 					<option value="@conta.Id">@conta.Nome</option>
 				}

@@ -22,9 +22,9 @@ namespace MoneyWeb.Controllers
             _mapper = mapper;
         }
 
-        private async Task<IEnumerable<Conta>> GetContas()
+        private async Task<IEnumerable<ContaViewModel>> GetContas()
         {
-            return await _contaRepository.GetContas(UsuarioId);
+            return _mapper.Map<IEnumerable<ContaViewModel>>(await _contaRepository.GetContas(UsuarioId));
         }
 
         private async Task<Cartao> GetCartao(int id)

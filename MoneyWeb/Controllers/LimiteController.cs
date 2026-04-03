@@ -23,9 +23,9 @@ namespace MoneyWeb.Controllers
             _mapper = mapper;
         }
 
-        private async Task<IEnumerable<Categoria>> GetCategorias()
+        private async Task<IEnumerable<CategoriaViewModel>> GetCategorias()
         {
-            return await _categoriaRepository.GetCategoriasDeDespesa(UsuarioId);
+            return _mapper.Map<IEnumerable<CategoriaViewModel>>(await _categoriaRepository.GetCategoriasDeDespesa(UsuarioId));
         }
 
         private async Task<Limite> GetLimite(int id)
