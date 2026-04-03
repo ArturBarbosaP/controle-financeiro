@@ -28,5 +28,13 @@ namespace MoneyWeb.Repository
                 .Where(u => u.UsuarioId == usuarioId)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Categoria>> GetCategoriasDeDespesa(int usuarioId)
+        {
+            return await _context.Categorias
+                .Where(u => u.UsuarioId == usuarioId)
+                .Where(c => c.Tipo == "Despesa")
+                .ToListAsync();
+        }
     }
 }

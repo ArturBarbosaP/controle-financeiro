@@ -1,0 +1,45 @@
+﻿@using MoneyWeb.Models.Entities
+@using MoneyWeb.Models.ViewModels
+@using MoneyWeb.Helpers
+@model LimiteViewModel
+@{
+	ViewData["Title"] = ViewBag.Title;
+}
+
+<div class="text-start">
+	<form asp-controller="Limite" asp-action="@ViewBag.Action" method="post">
+
+		@if (ViewBag.Action == "Update")
+		{
+			<input type="hidden" asp-for="Id" value="@Model.Id" />
+		}
+
+		<div class="form-floating mb-3">
+			<select asp-for="CategoriaId" class="form-select @Html.GetValidationCssClass(nameof(Model.CategoriaId))" id="selectCategoria" aria-describedby="tipoSelectHelp" placeholder="">
+				<option selected>Selecione uma categoria</option>
+				@foreach (Categoria categoria in ViewBag.Categorias)
+				{
+					<option value="@categoria.Id">@categoria.Nome</option>
+				}
+			</select>
+			<span asp-validation-for="CategoriaId" class="invalid-feedback"></span>
+			<label for="selectCategoria">Categoria</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="ValorLimite" class="form-control @Html.GetValidationCssClass(nameof(Model.ValorLimite))" id="txtLimite" aria-describedby="nomeHelp" placeholder="0,00" inputmode="decimal" />
+			<span asp-validation-for="ValorLimite" class="invalid-feedback"></span>
+			<label for="txtLimite">Valor Limite</label>
+		</div>
+
+		<div class="row">
+			<div class="col text-start">
+				<button type="submit" class="btn btn-primary">@ViewBag.Title</button>
+			</div>
+			<div class="col text-end">
+				<a class="btn btn-secondary" role="button" asp-controller="Limite" asp-action="Index">Voltar</a>
+			</div>
+		</div>
+
+	</form>
+</div>

@@ -33,6 +33,10 @@ namespace MoneyWeb.Data.Map
 
             builder.HasIndex(x => x.CategoriaId)
                 .HasDatabaseName("idx_fk_limite_categoria");
+
+            builder.HasIndex(x => x.CategoriaId)
+                .IsUnique()
+                .HasDatabaseName("categoria_id_unique");
         }
     }
 }

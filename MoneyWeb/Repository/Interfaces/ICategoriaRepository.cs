@@ -7,5 +7,7 @@ namespace MoneyWeb.Repository.Interfaces
         Task<IEnumerable<Categoria>> GetCategorias(int usuarioId);
 
         Task<Categoria> GetCategoriaById(int id, int usuarioId);
+
+        Task<IEnumerable<Categoria>> GetCategoriasDeDespesa(int usuarioId);
     }
 }
