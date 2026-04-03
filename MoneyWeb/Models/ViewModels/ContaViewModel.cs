@@ -8,7 +8,7 @@ namespace MoneyWeb.Models.ViewModels
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Digite o nome da conta!")]
-        [MaxLength(ErrorMessage = "O nome da conta não pode ultrapassar 80 caracteres!")]
+        [MaxLength(80, ErrorMessage = "O nome da conta não pode ultrapassar 80 caracteres!")]
         public string Nome { get; set; }
 
         [Display(Name = "Saldo")]
