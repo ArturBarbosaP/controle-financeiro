@@ -10,13 +10,26 @@ namespace MoneyWeb.Controllers
     public class LancamentoController : BaseController
     {
         private readonly ILancamentoRepository _repository;
+        private readonly ICategoriaRepository _categoriaRepository;
+        private readonly IContaRepository _contaRepository;
+        private readonly ICartaoRepository _cartaoRepository;
         private readonly IMapper _mapper;
         private const string _nomeForm = "LancamentoForm";
 
-        public LancamentoController(ILancamentoRepository repository, IMapper mapper)
+        public LancamentoController(ILancamentoRepository repository, IMapper mapper, ICategoriaRepository categoriaRepository, IContaRepository contaRepository, ICartaoRepository cartaoRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _categoriaRepository = categoriaRepository;
+            _contaRepository = contaRepository;
+            _cartaoRepository = cartaoRepository;
+        }
+
+        private async Task CarregarDadosSelect()
+        {
+            ViewBag.Categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(await _categoriaRepository.GetCategorias(UsuarioId));
+            ViewBag.Contas = _mapper.Map<IEnumerable<ContaViewModel>>(await _contaRepository.GetContas(UsuarioId));
+            ViewBag.Cartoes = _mapper.Map<IEnumerable<CartaoViewModel>>(await _cartaoRepository.GetCartoes(UsuarioId));
         }
 
         public async Task<IActionResult> Index()
@@ -29,6 +42,22 @@ namespace MoneyWeb.Controllers
             catch (Exception ex)
             {
                 return ExibirViewErro(ex.Message);
+            }
+        }
+
+        public async Task<IActionResult> Create()
+        {
+            try
+            {
+                ViewBag.Title = "Criar Lançamento";
+                ViewBag.Action = "Create";
+                await CarregarDadosSelect();
+
+                return View(_nomeForm);
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao criar lançamento: {ex.Message}", false, "Index");
             }
         }
     }

@@ -28,6 +28,8 @@ namespace MoneyWeb.Models.ViewModels
 
         public bool Fixo { get; set; }
 
+        public int? Parcelas {  get; set; }
+
         public bool PreLancamento { get; set; }
 
         [Required(ErrorMessage = "Selecione a categoria do lançamento!")]

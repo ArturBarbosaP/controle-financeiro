@@ -1,0 +1,187 @@
+﻿@using MoneyWeb.Models.Entities
+@using MoneyWeb.Models.ViewModels
+@using MoneyWeb.Helpers
+@model LancamentoViewModel
+@{
+	ViewData["Title"] = ViewBag.Title;
+}
+
+<div class="text-start">
+	<form asp-controller="Lancamento" asp-action="@ViewBag.Action" method="post">
+
+		@if (ViewBag.Action == "Update")
+		{
+			<input type="hidden" asp-for="Id" value="@Model.Id" />
+		}
+
+		<div class="form-floating mb-3">
+			<div class="form-check form-check-inline">
+				<input asp-for="Tipo" class="form-check-input @Html.GetValidationCssClass(nameof(Model.Tipo))" type="radio" name="radioTipo" id="radioTipoDesp" value="Despesa">
+				<label class="form-check-label" for="radioTipoDesp">Despesa</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input asp-for="Tipo" class="form-check-input @Html.GetValidationCssClass(nameof(Model.Tipo))" type="radio" name="radioTipo" id="radioTipoRece" value="Receita">
+				<label class="form-check-label" for="radioTipoRece">Receita</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input asp-for="Tipo" class="form-check-input @Html.GetValidationCssClass(nameof(Model.Tipo))" type="radio" name="radioTipo" id="radioTipoTransf" value="Transf.">
+				<label class="form-check-label" for="radioTipoTransf">Transferência</label>
+			</div>
+			<span asp-validation-for="Tipo" class="invalid-feedback"></span>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="Valor" class="form-control @Html.GetValidationCssClass(nameof(Model.Valor))" id="txtValor" aria-describedby="nomeHelp" placeholder="0,00" inputmode="decimal" />
+			<span asp-validation-for="Valor" class="invalid-feedback"></span>
+			<label for="txtValor">Valor</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="Descricao" class="form-control @Html.GetValidationCssClass(nameof(Model.Descricao))" id="txtDescricao" aria-describedby="nomeHelp" placeholder="" />
+			<span asp-validation-for="Descricao" class="invalid-feedback"></span>
+			<label for="txtDescricao">Descricao</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<select asp-for="CategoriaId" class="form-select @Html.GetValidationCssClass(nameof(Model.CategoriaId))" id="selectCategoria" aria-describedby="tipoSelectHelp" placeholder="">
+				<option selected>Selecione uma categoria</option>
+			</select>
+			<span asp-validation-for="CategoriaId" class="invalid-feedback"></span>
+			<label for="selectCategoria">Categoria</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<select asp-for="ContaId" class="form-select @Html.GetValidationCssClass(nameof(Model.ContaId))" id="selectConta" aria-describedby="tipoSelectHelp" placeholder="">
+				<option selected>Selecione uma conta</option>
+				@foreach (ContaViewModel conta in ViewBag.Contas)
+				{
+					<option value="@conta.Id">@conta.Nome</option>
+				}
+			</select>
+			<span asp-validation-for="ContaId" class="invalid-feedback"></span>
+			<label for="selectConta">Conta</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<select asp-for="CartaoId" class="form-select @Html.GetValidationCssClass(nameof(Model.CartaoId))" id="selectCartao" aria-describedby="tipoSelectHelp" placeholder="">
+				<option selected>Selecione um cartão</option>
+			</select>
+			<span asp-validation-for="CartaoId" class="invalid-feedback"></span>
+			<label for="selectCartao">Cartão</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="date" asp-for="Data" class="form-control @Html.GetValidationCssClass(nameof(Model.Data))" id="dtpData" aria-describedby="nomeHelp" placeholder="" />
+			<span asp-validation-for="Data" class="invalid-feedback"></span>
+			<label for="dtpData">Data</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input type="number" asp-for="Parcelas" class="form-control @Html.GetValidationCssClass(nameof(Model.Parcelas))" id="txtParcelas" aria-describedby="nomeHelp" placeholder="" />
+			<span asp-validation-for="Parcelas" class="invalid-feedback"></span>
+			<label for="txtParcelas">Parcelas</label>
+		</div>
+
+		<div class="form-check form-switch mb-3">
+			<input asp-for="Fixo" class="form-check-input @Html.GetValidationCssClass(nameof(Model.Fixo))" type="checkbox" role="switch" id="switchFixo">
+			<label class="form-check-label" for="switchFixo">Fixo</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<textarea type="text" asp-for="Observacao" class="form-control @Html.GetValidationCssClass(nameof(Model.Observacao))" id="txtObservacao" aria-describedby="nomeHelp" placeholder=""></textarea>
+			<div style="position: absolute; top: 1px; left: 2px; right: 2px; height: 1.8rem; pointer-events: none; z-index: 10; background: white"></div>
+			<span asp-validation-for="Observacao" class="invalid-feedback"></span>
+			<label style="z-index: 11;" for="txtObservacao">Observacao</label>
+		</div>
+
+		<div class="row">
+			<div class="col text-start">
+				<button type="submit" class="btn btn-primary">@ViewBag.Title</button>
+			</div>
+			<div class="col text-end">
+				<a class="btn btn-secondary" role="button" asp-controller="Lancamento" asp-action="Index">Voltar</a>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+	const todasCategorias = @Html.Raw(Json.Serialize(ViewBag.Categorias));
+	const todosCartoes = @Html.Raw(Json.Serialize(ViewBag.Cartoes ?? new List<object>()));
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const selectCategoria = document.getElementById('selectCategoria');
+		const selectConta = document.getElementById('selectConta');
+		const selectCartao = document.getElementById('selectCartao');
+
+		//categoria
+		const tipoInicial = '@(Model?.Tipo)';
+		const categoriaInicial = @(Model?.CategoriaId ?? 0);
+		if (tipoInicial){
+			filtrarCategorias(tipoInicial, categoriaInicial);
+		}
+		else{
+			filtrarCategorias('');
+		}
+
+		function filtrarCategorias(tipoSelecionado, categoriaSelecionada = null){
+			const filtradas = tipoSelecionado ? todasCategorias.filter(c => c.tipo == tipoSelecionado) : todasCategorias;
+			selectCategoria.innerHTML = '<option selected>Selecione uma categoria</option>';
+			filtradas.forEach(c => {
+				const opt = document.createElement('option');
+				opt.value = c.id;
+				opt.textContent = c.nome;
+				if (c.id === categoriaSelecionada) opt.selected = true;
+				selectCategoria.appendChild(opt);
+			});
+		}
+
+		document.querySelectorAll('input[name="radioTipo"]').forEach(radio => {
+			radio.addEventListener('change', () => filtrarCategorias(radio.value));
+		});
+
+		selectCategoria.addEventListener('change', () => {
+			const categoriaSelecionada = todasCategorias.find(c => c.id == selectCategoria.value);
+			if (categoriaSelecionada){
+				const radio = document.querySelector(`input[name="radioTipo"][value="${categoriaSelecionada.tipo}"]`);
+				if (radio) radio.checked = true;
+				filtrarCategorias(categoriaSelecionada.tipo, parseInt(selectCategoria.value));
+			}
+		});
+
+		//cartao
+		selectCartao.closest('.form-floating').style.display = 'none';
+
+		const contaInicial = '@(Model?.ContaId)';
+		const cartaoInicial = @(Model?.CartaoId ?? 0);
+		if (cartaoInicial){
+			filtrarCartoes(contaInicial, cartaoInicial);
+		}
+		else{
+			filtrarCartoes('');
+		}
+
+		function filtrarCartoes(contaId, cartaoSelecionado = null) {
+			const cartoesDaConta = todosCartoes.filter(c => c.contaId === contaId);
+
+			selectCartao.innerHTML = '<option selected>Selecione um cartão</option>';
+
+			if (cartoesDaConta.length > 0) {
+				cartoesDaConta.forEach(c => {
+					const opt = document.createElement('option');
+					opt.value = c.id;
+					opt.textContent = c.nome;
+					if (c.id === cartaoSelecionado) opt.selected = true;
+					selectCartao.appendChild(opt);
+				});
+				selectCartao.closest('.form-floating').style.display = 'block';
+			} else {
+				selectCartao.closest('.form-floating').style.display = 'none';
+			}
+		}
+
+		selectConta.addEventListener('change', () => {
+			filtrarCartoes(parseInt(selectConta.value));
+		});
+	});
+</script>
