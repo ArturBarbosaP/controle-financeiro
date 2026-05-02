@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {
         options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((value, fieldName) => $"O valor '{value}' não é válido para o campo {fieldName}!");
+        options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(_ => $"O campo é obrigatório!");
     })
     .AddNewtonsoftJson(options =>
     {

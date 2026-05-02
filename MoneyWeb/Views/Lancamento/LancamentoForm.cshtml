@@ -16,18 +16,18 @@
 
 		<div class="form-floating mb-3">
 			<div class="form-check form-check-inline">
-				<input asp-for="Tipo" class="form-check-input @Html.GetValidationCssClass(nameof(Model.Tipo))" type="radio" name="radioTipo" id="radioTipoDesp" value="Despesa">
+				<input asp-for="Tipo" class="form-check-input @Html.GetValidationCssClass(nameof(Model.Tipo))" type="radio" name="Tipo" id="radioTipoDesp" value="Despesa">
 				<label class="form-check-label" for="radioTipoDesp">Despesa</label>
 			</div>
 			<div class="form-check form-check-inline">
-				<input asp-for="Tipo" class="form-check-input @Html.GetValidationCssClass(nameof(Model.Tipo))" type="radio" name="radioTipo" id="radioTipoRece" value="Receita">
+				<input asp-for="Tipo" class="form-check-input @Html.GetValidationCssClass(nameof(Model.Tipo))" type="radio" name="Tipo" id="radioTipoRece" value="Receita">
 				<label class="form-check-label" for="radioTipoRece">Receita</label>
 			</div>
 			<div class="form-check form-check-inline">
-				<input asp-for="Tipo" class="form-check-input @Html.GetValidationCssClass(nameof(Model.Tipo))" type="radio" name="radioTipo" id="radioTipoTransf" value="Transf.">
+				<input asp-for="Tipo" class="form-check-input @Html.GetValidationCssClass(nameof(Model.Tipo))" type="radio" name="Tipo" id="radioTipoTransf" value="Transf.">
 				<label class="form-check-label" for="radioTipoTransf">Transferência</label>
 			</div>
-			<span asp-validation-for="Tipo" class="invalid-feedback"></span>
+			<br /><span asp-validation-for="Tipo" class="invalid-feedback-without-is-invalid"></span>
 		</div>
 
 		<div class="form-floating mb-3">
@@ -44,7 +44,7 @@
 
 		<div class="form-floating mb-3">
 			<select asp-for="CategoriaId" class="form-select @Html.GetValidationCssClass(nameof(Model.CategoriaId))" id="selectCategoria" aria-describedby="tipoSelectHelp" placeholder="">
-				<option selected>Selecione uma categoria</option>
+				<option value="" selected>Selecione uma categoria</option>
 			</select>
 			<span asp-validation-for="CategoriaId" class="invalid-feedback"></span>
 			<label for="selectCategoria">Categoria</label>
@@ -52,7 +52,7 @@
 
 		<div class="form-floating mb-3">
 			<select asp-for="ContaId" class="form-select @Html.GetValidationCssClass(nameof(Model.ContaId))" id="selectConta" aria-describedby="tipoSelectHelp" placeholder="">
-				<option selected>Selecione uma conta</option>
+				<option value="" selected>Selecione uma conta</option>
 				@foreach (ContaViewModel conta in ViewBag.Contas)
 				{
 					<option value="@conta.Id">@conta.Nome</option>
@@ -64,7 +64,7 @@
 
 		<div class="form-floating mb-3">
 			<select asp-for="CartaoId" class="form-select @Html.GetValidationCssClass(nameof(Model.CartaoId))" id="selectCartao" aria-describedby="tipoSelectHelp" placeholder="">
-				<option selected>Selecione um cartão</option>
+				<option value="" selected>Selecione um cartão</option>
 			</select>
 			<span asp-validation-for="CartaoId" class="invalid-feedback"></span>
 			<label for="selectCartao">Cartão</label>
@@ -126,7 +126,7 @@
 
 		function filtrarCategorias(tipoSelecionado, categoriaSelecionada = null){
 			const filtradas = tipoSelecionado ? todasCategorias.filter(c => c.tipo == tipoSelecionado) : todasCategorias;
-			selectCategoria.innerHTML = '<option selected>Selecione uma categoria</option>';
+			selectCategoria.innerHTML = '<option value="" selected>Selecione uma categoria</option>';
 			filtradas.forEach(c => {
 				const opt = document.createElement('option');
 				opt.value = c.id;
@@ -136,14 +136,14 @@
 			});
 		}
 
-		document.querySelectorAll('input[name="radioTipo"]').forEach(radio => {
+		document.querySelectorAll('input[name="Tipo"]').forEach(radio => {
 			radio.addEventListener('change', () => filtrarCategorias(radio.value));
 		});
 
 		selectCategoria.addEventListener('change', () => {
 			const categoriaSelecionada = todasCategorias.find(c => c.id == selectCategoria.value);
 			if (categoriaSelecionada){
-				const radio = document.querySelector(`input[name="radioTipo"][value="${categoriaSelecionada.tipo}"]`);
+				const radio = document.querySelector(`input[name="Tipo"][value="${categoriaSelecionada.tipo}"]`);
 				if (radio) radio.checked = true;
 				filtrarCategorias(categoriaSelecionada.tipo, parseInt(selectCategoria.value));
 			}
@@ -164,7 +164,7 @@
 		function filtrarCartoes(contaId, cartaoSelecionado = null) {
 			const cartoesDaConta = todosCartoes.filter(c => c.contaId === contaId);
 
-			selectCartao.innerHTML = '<option selected>Selecione um cartão</option>';
+			selectCartao.innerHTML = '<option value="" selected>Selecione um cartão</option>';
 
 			if (cartoesDaConta.length > 0) {
 				cartoesDaConta.forEach(c => {

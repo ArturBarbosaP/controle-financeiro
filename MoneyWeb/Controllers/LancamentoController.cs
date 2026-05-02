@@ -60,5 +60,29 @@ namespace MoneyWeb.Controllers
                 return ExibirMensagem($"Erro ao criar lançamento: {ex.Message}", false, "Index");
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(LancamentoViewModel lancamentoViewModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Title = "Criar Lançamento";
+                    ViewBag.Action = "Create";
+                    await CarregarDadosSelect();
+
+                    return View(_nomeForm, lancamentoViewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ExibirMensagem($"Erro ao criar lançamento: {ex.Message}", false, "Index");
+            }
+
+
+            return View(_nomeForm, lancamentoViewModel);
+        }
     }
 }
