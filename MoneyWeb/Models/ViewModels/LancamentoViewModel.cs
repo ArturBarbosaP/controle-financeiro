@@ -8,7 +8,7 @@ namespace MoneyWeb.Models.ViewModels
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Selecione o tipo do lançamento!")]
-        [InList(["Despesa", "Receita"], ErrorMessage = "O tipo do lançamento pode ser apenas Despesa ou Receita!")]
+        [InList(["Despesa", "Receita", "Transf."], ErrorMessage = "O tipo do lançamento pode ser apenas Despesa ou Receita!")]
         public string Tipo { get; set; }
 
         [Display(Name = "Valor")]
@@ -46,5 +46,6 @@ namespace MoneyWeb.Models.ViewModels
 
         public int? CartaoId { get; set; }
         public string? CartaoNome { get; set; }
+        public int? ContaDestinoId {  get; set; }
     }
 }

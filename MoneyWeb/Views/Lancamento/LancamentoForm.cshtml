@@ -59,7 +59,7 @@
 				}
 			</select>
 			<span asp-validation-for="ContaId" class="invalid-feedback"></span>
-			<label for="selectConta">Conta</label>
+			<label for="selectConta" id="labelConta">Conta</label>
 		</div>
 
 		<div class="form-floating mb-3">
@@ -68,6 +68,14 @@
 			</select>
 			<span asp-validation-for="CartaoId" class="invalid-feedback"></span>
 			<label for="selectCartao">Cartão</label>
+		</div>
+
+		<div class="form-floating mb-3">
+			<select asp-for="ContaDestinoId" class="form-select @Html.GetValidationCssClass(nameof(Model.ContaDestinoId))" id="selectContaDestino" aria-describedby="tipoSelectHelp" placeholder="">
+				<option value="" selected>Selecione uma conta de destino</option>
+			</select>
+			<span asp-validation-for="ContaDestinoId" class="invalid-feedback"></span>
+			<label for="selectContaDestino">Para</label>
 		</div>
 
 		<div class="form-floating mb-3">
@@ -108,11 +116,14 @@
 <script>
 	const todasCategorias = @Html.Raw(Json.Serialize(ViewBag.Categorias));
 	const todosCartoes = @Html.Raw(Json.Serialize(ViewBag.Cartoes ?? new List<object>()));
+	const todasContas = @Html.Raw(Json.Serialize(ViewBag.Contas));
 
 	document.addEventListener('DOMContentLoaded', () => {
 		const selectCategoria = document.getElementById('selectCategoria');
 		const selectConta = document.getElementById('selectConta');
 		const selectCartao = document.getElementById('selectCartao');
+		const selectContaDestino = document.getElementById('selectContaDestino');
+		const labelConta = document.getElementById('labelConta');
 
 		//categoria
 		const tipoInicial = '@(Model?.Tipo)';
@@ -137,7 +148,19 @@
 		}
 
 		document.querySelectorAll('input[name="Tipo"]').forEach(radio => {
-			radio.addEventListener('change', () => filtrarCategorias(radio.value));
+			radio.addEventListener('change', () => {
+				filtrarCategorias(radio.value);
+				if (radio.value === 'Transf.') {
+					selectCartao.closest('.form-floating').style.display = 'none';
+					filtrarContaDestino(parseInt(selectConta.value));
+				}
+				else {
+					selectContaDestino.closest('.form-floating').style.display = 'none';
+					labelConta.textContent = 'Conta';
+					selectContaDestino.innerHTML = '<option value="" selected>Selecione uma conta de destino</option>';
+					filtrarCartoes(parseInt(selectConta.value));
+				}
+			});
 		});
 
 		selectCategoria.addEventListener('change', () => {
@@ -181,7 +204,41 @@
 		}
 
 		selectConta.addEventListener('change', () => {
-			filtrarCartoes(parseInt(selectConta.value));
+			const contaId = parseInt(selectConta.value);
+			const tipoSelecionado = document.querySelector('input[name="Tipo"]:checked')?.value;
+
+			if (tipoSelecionado === 'Transf.'){
+				filtrarContaDestino(contaId);
+			}
+			else{
+				filtrarCartoes(contaId);
+			}
 		});
+
+		//contas
+		selectContaDestino.closest('.form-floating').style.display = 'none';
+
+		const contaDestinoInicial = @(Model?.ContaDestinoId ?? 0);
+		if (tipoInicial === 'Transf.'){
+			selectCartao.closest('.form-floating').style.display = 'none';
+			filtrarContaDestino(parseInt(contaInicial), contaDestinoInicial);
+		}
+
+		function filtrarContaDestino(contaOrigemId, contaDestinoSelecionada = null){
+			const filtradas = todasContas.filter(c => c.id !== contaOrigemId);
+
+			selectContaDestino.innerHTML = '<option value="" selected>Selecione uma conta de destino</option>';
+
+			filtradas.forEach(c =>{
+				const opt = document.createElement('option');
+				opt.value = c.id;
+				opt.textContent = c.nome;
+				if (c.id === contaDestinoSelecionada) opt.selected = true;
+				selectContaDestino.appendChild(opt);
+			});
+
+			selectContaDestino.closest('.form-floating').style.display = 'block';
+			labelConta.textContent = 'De';
+		}
 	});
 </script>
